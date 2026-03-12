@@ -8,7 +8,6 @@ interface FeedbackPanelProps {
   mode: AppMode;
   quizState: QuizState;
   lastEvent: 'correct' | 'mistake' | null;
-  character: string;
   onRetry: () => void;
   onNext: () => void;
 }
@@ -17,7 +16,6 @@ export function FeedbackPanel({
   mode,
   quizState,
   lastEvent,
-  character,
   onRetry,
   onNext,
 }: FeedbackPanelProps) {

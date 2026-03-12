@@ -144,7 +144,6 @@ export default function App() {
           mode={mode}
           quizState={quizState}
           lastEvent={lastEvent}
-          character={character}
           onRetry={handleRetry}
           onNext={handleNext}
         />
