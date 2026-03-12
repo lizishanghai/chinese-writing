@@ -1,0 +1,19 @@
+.star-rating {
+  display: flex;
+  gap: 4px;
+  justify-content: center;
+}
+
+.star {
+  font-size: 28px;
+  transition: transform 0.2s ease;
+}
+
+.star--empty {
+  font-size: 28px;
+  color: #E2E8F0;
+}
+
+.star--filled {
+  display: inline-block;
+}

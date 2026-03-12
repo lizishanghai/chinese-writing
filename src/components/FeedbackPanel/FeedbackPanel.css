@@ -1,0 +1,211 @@
+.feedback-panel {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* Demo mode */
+.feedback-demo {
+  text-align: center;
+  padding: 24px 16px;
+}
+
+.feedback-demo-icon {
+  font-size: 48px;
+  margin-bottom: 8px;
+}
+
+.feedback-demo h3 {
+  font-family: var(--font-family-zh);
+  font-size: 18px;
+  color: var(--color-primary);
+  margin: 0 0 8px;
+}
+
+.feedback-demo p {
+  font-size: 13px;
+  color: var(--color-text-light);
+  margin: 0 0 4px;
+  line-height: 1.5;
+}
+
+.feedback-demo-zh {
+  font-family: var(--font-family-zh);
+}
+
+/* Stroke Progress */
+.stroke-progress {
+  background: white;
+  border-radius: var(--radius-md);
+  padding: 16px;
+  box-shadow: var(--shadow-sm);
+}
+
+.stroke-progress-title {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--color-text);
+  margin: 0 0 10px;
+  font-family: var(--font-family-zh);
+}
+
+.stroke-progress-bar {
+  height: 8px;
+  background: #E2E8F0;
+  border-radius: 4px;
+  overflow: hidden;
+  margin-bottom: 6px;
+}
+
+.stroke-progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--color-primary), var(--color-accent));
+  border-radius: 4px;
+  transition: width 0.3s ease;
+}
+
+.stroke-progress-label {
+  text-align: center;
+  font-size: 12px;
+  color: var(--color-text-light);
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+
+.stroke-dots {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  justify-content: center;
+}
+
+.stroke-dot {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  font-weight: 700;
+  background: #F1F5F9;
+  color: var(--color-text-light);
+  transition: all 0.2s ease;
+}
+
+.stroke-dot--perfect {
+  background: var(--color-success);
+  color: white;
+}
+
+.stroke-dot--done {
+  background: var(--color-accent);
+  color: white;
+}
+
+.stroke-dot--current {
+  background: var(--color-primary);
+  color: white;
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+/* Score Display */
+.score-display {
+  text-align: center;
+  background: white;
+  border-radius: var(--radius-md);
+  padding: 20px;
+  box-shadow: var(--shadow-sm);
+}
+
+.score-number {
+  font-size: 48px;
+  font-weight: 800;
+  color: var(--color-primary);
+  line-height: 1;
+  margin: 8px 0 4px;
+}
+
+.score-label {
+  font-size: 13px;
+  color: var(--color-text-light);
+  font-family: var(--font-family-zh);
+}
+
+.score-perfect {
+  margin-top: 8px;
+  font-size: 12px;
+  color: var(--color-success);
+  font-weight: 600;
+}
+
+/* Encouragement Banner */
+.encouragement {
+  text-align: center;
+  padding: 12px 16px;
+  border-radius: var(--radius-md);
+  font-weight: 700;
+}
+
+.encouragement--correct {
+  background: #DCFCE7;
+  color: #166534;
+}
+
+.encouragement--mistake {
+  background: #FFF7ED;
+  color: #9A3412;
+}
+
+.encouragement--complete {
+  background: linear-gradient(135deg, #DBEAFE, #FEF3C7);
+  color: var(--color-primary-dark);
+}
+
+.encouragement-en {
+  font-size: 16px;
+}
+
+.encouragement-zh {
+  font-size: 14px;
+  font-family: var(--font-family-zh);
+  opacity: 0.8;
+}
+
+/* Actions */
+.feedback-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.feedback-idle {
+  text-align: center;
+  padding: 20px;
+}
+
+.feedback-idle p {
+  font-size: 13px;
+  color: var(--color-text-light);
+  margin: 0 0 4px;
+}
+
+.feedback-idle-zh {
+  font-family: var(--font-family-zh);
+}
+
+@media (max-width: 767px) {
+  .feedback-panel {
+    padding: 16px;
+  }
+
+  .feedback-actions {
+    flex-direction: row;
+  }
+
+  .feedback-actions .ctrl-btn {
+    flex: 1;
+    justify-content: center;
+  }
+}
