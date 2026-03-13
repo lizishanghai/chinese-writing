@@ -1,5 +1,7 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { getLevelConfig, TOTAL_LEVEL_COUNT } from '../../data/characterLibrary';
+import { playCelebrationFanfare } from '../../utils/soundEffects';
+import { Fireworks } from './Fireworks';
 import './Congratulations.css';
 
 interface CongratulationsProps {
@@ -10,6 +12,7 @@ interface CongratulationsProps {
 
 export function Congratulations({ level, onContinue, onBackToLevels }: CongratulationsProps) {
   const [showDiamond, setShowDiamond] = useState(false);
+  const soundPlayed = useRef(false);
   const config = getLevelConfig(level);
   const isLastLevel = level >= TOTAL_LEVEL_COUNT;
 
@@ -18,8 +21,17 @@ export function Congratulations({ level, onContinue, onBackToLevels }: Congratul
     return () => clearTimeout(timer);
   }, []);
 
+  useEffect(() => {
+    if (!soundPlayed.current) {
+      soundPlayed.current = true;
+      playCelebrationFanfare();
+    }
+  }, []);
+
   return (
     <div className="congrats">
+      <Fireworks />
+
       <div className="congrats-card">
         <div className={`congrats-diamond ${showDiamond ? 'congrats-diamond--show' : ''}`}>
           💎

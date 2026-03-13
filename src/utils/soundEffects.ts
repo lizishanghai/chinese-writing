@@ -32,7 +32,6 @@ export function playCompletionChime(): void {
   const ctx = getAudioContext();
   if (!ctx) return;
 
-  // Resume if suspended (autoplay policy)
   if (ctx.state === 'suspended') {
     ctx.resume();
   }
@@ -45,4 +44,30 @@ export function playCompletionChime(): void {
   notes.forEach((freq, i) => {
     playTone(ctx, freq, now + i * spacing, 0.3);
   });
+}
+
+export function playCelebrationFanfare(): void {
+  const ctx = getAudioContext();
+  if (!ctx) return;
+
+  if (ctx.state === 'suspended') {
+    ctx.resume();
+  }
+
+  const now = ctx.currentTime;
+
+  // Triumphant fanfare: chord burst → ascending arpeggio → sustained chord
+  [523.25, 659.25, 783.99].forEach(freq => {
+    playTone(ctx, freq, now, 0.25);
+  });
+
+  const arpeggio = [523.25, 659.25, 783.99, 1046.50, 1318.51];
+  arpeggio.forEach((freq, i) => {
+    playTone(ctx, freq, now + 0.35 + i * 0.1, 0.35);
+  });
+
+  [1046.50, 1318.51, 1567.98].forEach(freq => {
+    playTone(ctx, freq, now + 0.9, 0.6);
+  });
+
 }
