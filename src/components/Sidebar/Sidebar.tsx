@@ -1,5 +1,5 @@
 import type { DifficultyLevel } from '../../types';
-import { characterLibrary } from '../../data/characterLibrary';
+import { getLevelConfig } from '../../data/characterLibrary';
 import { LevelSelector } from './LevelSelector';
 import { CharacterList } from './CharacterList';
 import './Sidebar.css';
@@ -19,7 +19,7 @@ export function Sidebar({
   onSelectCharacter,
   scores,
 }: SidebarProps) {
-  const levelConfig = characterLibrary[selectedLevel];
+  const levelConfig = getLevelConfig(selectedLevel);
 
   return (
     <div className="sidebar">

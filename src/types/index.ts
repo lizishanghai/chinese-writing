@@ -1,4 +1,4 @@
-export type DifficultyLevel = 'beginner' | 'intermediate' | 'advanced';
+export type DifficultyLevel = number; // 1-20
 export type AppMode = 'demo' | 'practice';
 
 export interface CharacterEntry {

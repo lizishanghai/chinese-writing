@@ -11,6 +11,26 @@
   position: sticky;
   top: 0;
   z-index: 100;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.back-btn {
+  background: rgba(255, 255, 255, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  color: white;
+  padding: 6px 14px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-family: var(--font-family-zh);
+  cursor: pointer;
+  transition: background 0.2s;
+  white-space: nowrap;
+}
+
+.back-btn:hover {
+  background: rgba(255, 255, 255, 0.3);
 }
 
 .app-title {
@@ -19,6 +39,7 @@
   gap: 10px;
   margin: 0;
   color: white;
+  flex: 1;
 }
 
 .app-title-icon {
@@ -26,7 +47,7 @@
 }
 
 .app-title-zh {
-  font-size: 24px;
+  font-size: 22px;
   font-family: var(--font-family-zh);
   font-weight: 800;
 }
@@ -37,10 +58,21 @@
   font-weight: 400;
 }
 
+.app-title-progress {
+  font-size: 14px;
+  opacity: 0.8;
+  font-weight: 400;
+  margin-left: auto;
+}
+
 .app-content {
   display: grid;
   grid-template-columns: var(--sidebar-width) 1fr var(--feedback-width);
   min-height: calc(100vh - 56px);
+}
+
+.app-content--no-sidebar {
+  grid-template-columns: 1fr var(--feedback-width);
 }
 
 .app-sidebar {
@@ -70,9 +102,17 @@
 }
 
 @media (max-width: 767px) {
+  .app-header {
+    padding: 10px 16px;
+  }
+
   .app-content {
     grid-template-columns: 1fr;
     min-height: auto;
+  }
+
+  .app-content--no-sidebar {
+    grid-template-columns: 1fr;
   }
 
   .app-sidebar {
@@ -94,6 +134,6 @@
   }
 
   .app-title-zh {
-    font-size: 20px;
+    font-size: 18px;
   }
 }

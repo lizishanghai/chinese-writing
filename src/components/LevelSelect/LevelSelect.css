@@ -1,0 +1,132 @@
+.level-select {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #EFF6FF 0%, #FFF7ED 100%);
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.level-select-header {
+  text-align: center;
+  margin-bottom: 32px;
+}
+
+.level-select-title {
+  font-size: 36px;
+  font-family: var(--font-family-zh);
+  color: var(--color-primary-dark);
+  margin: 0 0 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+}
+
+.level-select-subtitle {
+  color: var(--color-text-light);
+  font-size: 16px;
+  margin: 0;
+}
+
+.level-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  max-width: 800px;
+  width: 100%;
+}
+
+.level-card {
+  background: white;
+  border: 2px solid var(--color-border);
+  border-radius: 16px;
+  padding: 16px 12px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  min-height: 120px;
+  position: relative;
+}
+
+.level-card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-lg);
+  border-color: var(--color-primary);
+}
+
+.level-card--completed {
+  background: linear-gradient(135deg, #DBEAFE, #EDE9FE);
+  border-color: var(--color-primary);
+}
+
+.level-card--started {
+  border-color: var(--color-accent);
+}
+
+.level-card-num {
+  font-size: 28px;
+  font-weight: 800;
+  color: var(--color-primary);
+  line-height: 1;
+}
+
+.level-card--completed .level-card-num {
+  font-size: 32px;
+}
+
+.level-card-name {
+  font-size: 14px;
+  font-family: var(--font-family-zh);
+  color: var(--color-text);
+  font-weight: 600;
+}
+
+.level-card-chars {
+  font-size: 13px;
+  color: var(--color-text-light);
+  font-family: var(--font-family-zh);
+  letter-spacing: 2px;
+}
+
+.level-card-progress {
+  font-size: 11px;
+  color: var(--color-accent);
+  font-weight: 700;
+  position: absolute;
+  top: 8px;
+  right: 8px;
+}
+
+.level-select-footer {
+  margin-top: 32px;
+  color: var(--color-text-light);
+  font-size: 14px;
+}
+
+@media (max-width: 767px) {
+  .level-select {
+    padding: 16px;
+  }
+
+  .level-select-title {
+    font-size: 28px;
+  }
+
+  .level-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+
+  .level-card {
+    min-height: 100px;
+    padding: 12px 8px;
+  }
+
+  .level-card-num {
+    font-size: 24px;
+  }
+}

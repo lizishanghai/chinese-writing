@@ -1,0 +1,108 @@
+.congrats {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #EDE9FE 0%, #DBEAFE 50%, #FFF7ED 100%);
+  padding: 24px;
+}
+
+.congrats-card {
+  background: white;
+  border-radius: 24px;
+  padding: 48px 40px;
+  text-align: center;
+  box-shadow: 0 20px 60px rgba(59, 130, 246, 0.15);
+  max-width: 420px;
+  width: 100%;
+}
+
+.congrats-diamond {
+  font-size: 80px;
+  opacity: 0;
+  transform: scale(0.3) rotate(-30deg);
+  transition: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+  line-height: 1.2;
+}
+
+.congrats-diamond--show {
+  opacity: 1;
+  transform: scale(1) rotate(0deg);
+}
+
+.congrats-title {
+  font-size: 32px;
+  font-family: var(--font-family-zh);
+  color: var(--color-primary-dark);
+  margin: 16px 0 4px;
+}
+
+.congrats-subtitle {
+  color: var(--color-text-light);
+  font-size: 16px;
+  margin: 0 0 20px;
+}
+
+.congrats-level {
+  font-size: 18px;
+  font-family: var(--font-family-zh);
+  color: var(--color-primary);
+  font-weight: 600;
+  margin-bottom: 16px;
+}
+
+.congrats-chars {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin-bottom: 32px;
+}
+
+.congrats-char {
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-sidebar-bg);
+  border-radius: 12px;
+  font-size: 24px;
+  font-family: var(--font-family-zh);
+  color: var(--color-primary);
+  font-weight: 700;
+}
+
+.congrats-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.congrats-btn {
+  width: 100%;
+  padding: 14px 24px !important;
+  font-size: 16px !important;
+  border-radius: 12px !important;
+}
+
+.congrats-finish {
+  font-size: 20px;
+  font-family: var(--font-family-zh);
+  color: var(--color-success);
+  font-weight: 700;
+  padding: 12px;
+}
+
+@media (max-width: 767px) {
+  .congrats-card {
+    padding: 32px 24px;
+  }
+
+  .congrats-diamond {
+    font-size: 64px;
+  }
+
+  .congrats-title {
+    font-size: 26px;
+  }
+}

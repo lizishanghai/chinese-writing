@@ -1,7 +1,7 @@
 import { useCallback, useRef } from 'react';
 import type { AppMode, QuizState } from '../../types';
 import type { QuizCallbacks } from '../../hooks/useHanziWriter';
-import { characterLibrary } from '../../data/characterLibrary';
+import { getLevelConfig } from '../../data/characterLibrary';
 import { ModeToggle } from './ModeToggle';
 import { AnimationControls } from './AnimationControls';
 import { HanziCanvas } from './HanziCanvas';
@@ -19,6 +19,7 @@ interface WritingAreaProps {
   onQuizStart: (totalStrokes: number) => void;
   onStrokeAnimate?: (strokeNum: number) => void;
   onReadWords?: () => void;
+  onPrev?: () => void;
   onNext?: () => void;
 }
 
@@ -33,6 +34,7 @@ export function WritingArea({
   onQuizStart,
   onStrokeAnimate,
   onReadWords,
+  onPrev,
   onNext,
 }: WritingAreaProps) {
   const controlsRef = useRef<{
@@ -43,7 +45,7 @@ export function WritingArea({
     totalStrokes: number;
   } | null>(null);
 
-  const charInfo = characterLibrary[level].characters.find(c => c.char === character);
+  const charInfo = getLevelConfig(level).characters.find(c => c.char === character);
 
   const handleWriterReady = useCallback((controls: typeof controlsRef.current) => {
     controlsRef.current = controls;
@@ -91,16 +93,31 @@ export function WritingArea({
       <AnimationControls
         onAnimate={handleAnimate}
         onReadWords={onReadWords}
-        onNext={onNext}
         isDemo={mode === 'demo'}
       />
 
-      {mode === 'practice' && !quizState.completed && quizState.isActive && (
-        <p className="writing-hint">
-          Draw the strokes in the correct order!
-          <br />
-          <span className="writing-hint-zh">按正确顺序写出笔画！</span>
-        </p>
+      {mode === 'practice' && (
+        <div className="practice-controls">
+          {!quizState.completed && quizState.isActive && (
+            <p className="writing-hint">
+              Draw the strokes in the correct order!
+              <br />
+              <span className="writing-hint-zh">按正确顺序写出笔画！</span>
+            </p>
+          )}
+          <div className="practice-nav">
+            {onPrev && (
+              <button className="ctrl-btn" onClick={onPrev}>
+                <span>⬅️</span> 上一个
+              </button>
+            )}
+            {onNext && (
+              <button className="ctrl-btn" onClick={onNext}>
+                <span>➡️</span> 下一个
+              </button>
+            )}
+          </div>
+        </div>
       )}
     </div>
   );

@@ -1,5 +1,5 @@
 import type { DifficultyLevel } from '../../types';
-import { characterLibrary } from '../../data/characterLibrary';
+import { characterLevels } from '../../data/characterLibrary';
 import './Sidebar.css';
 
 interface LevelSelectorProps {
@@ -7,26 +7,17 @@ interface LevelSelectorProps {
   onSelectLevel: (level: DifficultyLevel) => void;
 }
 
-const levels: DifficultyLevel[] = ['beginner', 'intermediate', 'advanced'];
-
-const levelEmoji: Record<DifficultyLevel, string> = {
-  beginner: '⭐',
-  intermediate: '🌟',
-  advanced: '💫',
-};
-
 export function LevelSelector({ selectedLevel, onSelectLevel }: LevelSelectorProps) {
   return (
     <div className="level-selector">
-      {levels.map(level => {
-        const config = characterLibrary[level];
+      {characterLevels.map((config, i) => {
+        const levelNum = i + 1;
         return (
           <button
-            key={level}
-            className={`level-tab ${selectedLevel === level ? 'level-tab--active' : ''}`}
-            onClick={() => onSelectLevel(level)}
+            key={levelNum}
+            className={`level-tab ${selectedLevel === levelNum ? 'level-tab--active' : ''}`}
+            onClick={() => onSelectLevel(levelNum)}
           >
-            <span className="level-tab-emoji">{levelEmoji[level]}</span>
             <span className="level-tab-label">{config.labelZh}</span>
           </button>
         );

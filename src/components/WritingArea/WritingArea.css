@@ -242,3 +242,16 @@
   font-family: var(--font-family-zh);
   font-size: 13px;
 }
+
+/* Practice Controls */
+.practice-controls {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.practice-nav {
+  display: flex;
+  gap: 8px;
+}
