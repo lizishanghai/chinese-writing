@@ -101,6 +101,20 @@ export function useHanziWriter(
     writerRef.current?.animateCharacter();
   }, []);
 
+  const animateWithAudio = useCallback(async (onStrokeStart?: (strokeNum: number) => void) => {
+    const writer = writerRef.current;
+    if (!writer) return;
+    const charData = await writer.getCharacterData();
+    const numStrokes = charData.strokes.length;
+    await writer.hideCharacter();
+    for (let i = 0; i < numStrokes; i++) {
+      onStrokeStart?.(i);
+      await writer.animateStroke(i);
+      // Wait long enough for the speech to finish before next stroke
+      await new Promise(r => setTimeout(r, 800));
+    }
+  }, []);
+
   const loopAnimation = useCallback(() => {
     writerRef.current?.loopCharacterAnimation();
   }, []);
@@ -146,6 +160,7 @@ export function useHanziWriter(
     isLoading,
     totalStrokes,
     animate,
+    animateWithAudio,
     loopAnimation,
     pauseAnimation,
     resumeAnimation,

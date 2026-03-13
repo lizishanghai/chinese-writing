@@ -1,0 +1,23 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm view:*)",
+      "WebSearch",
+      "WebFetch(domain:hanziwriter.org)",
+      "Bash(npm create:*)",
+      "Bash(npx create-vite@latest . --template react-ts --yes)",
+      "Read(//c/Users/Li Zhang/Documents/ai/**)",
+      "Bash(npx --yes create-vite@latest chinese-temp --template react-ts)",
+      "Bash(cp -r \"C:/Users/Li Zhang/Documents/ai/chinese-temp/\"* \"C:/Users/Li Zhang/Documents/ai/chinese/\")",
+      "Bash(cp \"C:/Users/Li Zhang/Documents/ai/chinese-temp/.gitignore\" \"C:/Users/Li Zhang/Documents/ai/chinese/\")",
+      "Bash(rm -rf \"C:/Users/Li Zhang/Documents/ai/chinese-temp\")",
+      "Bash(npm install:*)",
+      "Bash(npx tsc:*)",
+      "Bash(npx vite:*)",
+      "mcp__Claude_Preview__preview_start",
+      "Bash(gh auth:*)",
+      "Bash(git config:*)",
+      "Bash(git --version)"
+    ]
+  }
+}

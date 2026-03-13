@@ -2,6 +2,7 @@ import { useState, useCallback, useEffect, useRef } from 'react';
 import type { DifficultyLevel, AppMode } from './types';
 import { characterLibrary } from './data/characterLibrary';
 import { useQuiz } from './hooks/useQuiz';
+import { useStrokeAudio } from './hooks/useStrokeAudio';
 import { useResponsive } from './hooks/useResponsive';
 import { AppLayout } from './components/Layout/AppLayout';
 import { Sidebar } from './components/Sidebar/Sidebar';
@@ -37,6 +38,7 @@ export default function App() {
   const { canvasSize } = useResponsive();
 
   const { quizState, startQuiz, onCorrectStroke, onMistake, onComplete, resetQuiz } = useQuiz();
+  const { speakStrokeName, playCompletionSound } = useStrokeAudio(character);
 
   // Save score on quiz complete
   useEffect(() => {
@@ -79,17 +81,21 @@ export default function App() {
       onCorrectStroke: (data: any) => {
         onCorrectStroke(data);
         setLastEvent('correct');
+        speakStrokeName(data.strokeNum);
       },
       onMistake: (data: any) => {
         onMistake(data);
         setLastEvent('mistake');
+        // Tell the user the correct stroke name
+        speakStrokeName(data.strokeNum);
       },
       onComplete: (summary: any) => {
         onComplete(summary);
         setLastEvent(null);
+        playCompletionSound();
       },
     };
-  }, [onCorrectStroke, onMistake, onComplete]);
+  }, [onCorrectStroke, onMistake, onComplete, speakStrokeName, playCompletionSound]);
 
   // Stable callbacks object that doesn't change identity
   const [quizCallbacks] = useState(() => ({
@@ -137,6 +143,7 @@ export default function App() {
           onModeChange={handleModeChange}
           quizCallbacks={quizCallbacks}
           onQuizStart={startQuiz}
+          onStrokeAnimate={speakStrokeName}
         />
       }
       feedbackPanel={

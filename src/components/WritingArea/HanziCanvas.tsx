@@ -11,6 +11,7 @@ interface HanziCanvasProps {
   quizCallbacks: QuizCallbacks;
   onWriterReady: (controls: {
     animate: () => void;
+    animateWithAudio: (onStrokeStart?: (strokeNum: number) => void) => Promise<void>;
     loopAnimation: () => void;
     startQuiz: (callbacks: QuizCallbacks) => void;
     totalStrokes: number;
@@ -31,6 +32,7 @@ export function HanziCanvas({
     isLoading,
     totalStrokes,
     animate,
+    animateWithAudio,
     loopAnimation,
     startQuiz,
   } = useHanziWriter(containerRef, character, {
@@ -50,9 +52,9 @@ export function HanziCanvas({
   // Notify parent when writer is ready
   useEffect(() => {
     if (!isLoading && totalStrokes > 0) {
-      onWriterReady({ animate, loopAnimation, startQuiz, totalStrokes });
+      onWriterReady({ animate, animateWithAudio, loopAnimation, startQuiz, totalStrokes });
     }
-  }, [isLoading, totalStrokes, animate, loopAnimation, startQuiz, onWriterReady]);
+  }, [isLoading, totalStrokes, animate, animateWithAudio, loopAnimation, startQuiz, onWriterReady]);
 
   // Auto-start quiz when in practice mode
   useEffect(() => {
