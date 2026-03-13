@@ -6,6 +6,9 @@ export interface CharacterEntry {
   pinyin: string;
   meaning: string;
   strokeCount: number;
+  emoji?: string;
+  words?: string[];
+  sentence?: string;
 }
 
 export interface LevelConfig {

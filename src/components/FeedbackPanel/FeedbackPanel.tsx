@@ -1,4 +1,4 @@
-import type { AppMode, QuizState } from '../../types';
+import type { AppMode, QuizState, CharacterEntry } from '../../types';
 import { StrokeProgress } from './StrokeProgress';
 import { ScoreDisplay } from './ScoreDisplay';
 import { EncouragementBanner } from './EncouragementBanner';
@@ -8,6 +8,7 @@ interface FeedbackPanelProps {
   mode: AppMode;
   quizState: QuizState;
   lastEvent: 'correct' | 'mistake' | null;
+  characterEntry?: CharacterEntry;
   onRetry: () => void;
   onNext: () => void;
 }
@@ -16,6 +17,7 @@ export function FeedbackPanel({
   mode,
   quizState,
   lastEvent,
+  characterEntry,
   onRetry,
   onNext,
 }: FeedbackPanelProps) {
@@ -23,10 +25,28 @@ export function FeedbackPanel({
     <div className="feedback-panel">
       {mode === 'demo' ? (
         <div className="feedback-demo">
-          <div className="feedback-demo-icon">👁️</div>
-          <h3>演示模式</h3>
-          <p>Watch the animation to learn stroke order, then switch to Practice mode!</p>
-          <p className="feedback-demo-zh">观看动画学习笔顺，然后切换到练习模式！</p>
+          {characterEntry?.emoji && (
+            <div className="char-info-emoji">{characterEntry.emoji}</div>
+          )}
+          {characterEntry?.words && characterEntry.words.length > 0 && (
+            <div className="char-info-section">
+              <h4 className="char-info-label">组词</h4>
+              <div className="char-info-words">
+                {characterEntry.words.map((word, i) => (
+                  <span key={i} className="char-info-word-pill">{word}</span>
+                ))}
+              </div>
+            </div>
+          )}
+          {characterEntry?.sentence && (
+            <div className="char-info-section">
+              <h4 className="char-info-label">造句</h4>
+              <p className="char-info-sentence">{characterEntry.sentence}</p>
+            </div>
+          )}
+          <div className="char-info-hint">
+            <p>观看动画学习笔顺，然后切换到练习模式！</p>
+          </div>
         </div>
       ) : (
         <>

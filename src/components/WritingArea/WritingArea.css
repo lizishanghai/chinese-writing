@@ -223,6 +223,12 @@
   border-color: var(--color-primary-dark);
 }
 
+.ctrl-btn--active {
+  background: var(--color-accent);
+  border-color: var(--color-accent);
+  color: white;
+}
+
 /* Hint */
 .writing-hint {
   text-align: center;

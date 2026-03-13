@@ -8,30 +8,80 @@
 /* Demo mode */
 .feedback-demo {
   text-align: center;
-  padding: 24px 16px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
 }
 
-.feedback-demo-icon {
-  font-size: 48px;
-  margin-bottom: 8px;
+/* Character info card */
+.char-info-emoji {
+  font-size: 56px;
+  line-height: 1.2;
 }
 
-.feedback-demo h3 {
+.char-info-section {
+  background: white;
+  border-radius: var(--radius-md);
+  padding: 12px 14px;
+  box-shadow: var(--shadow-sm);
+  text-align: left;
+}
+
+.char-info-label {
   font-family: var(--font-family-zh);
-  font-size: 18px;
+  font-size: 13px;
+  font-weight: 700;
   color: var(--color-primary);
   margin: 0 0 8px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
 }
 
-.feedback-demo p {
-  font-size: 13px;
-  color: var(--color-text-light);
-  margin: 0 0 4px;
-  line-height: 1.5;
+.char-info-label::before {
+  content: '';
+  display: inline-block;
+  width: 3px;
+  height: 14px;
+  background: var(--color-primary);
+  border-radius: 2px;
 }
 
-.feedback-demo-zh {
+.char-info-words {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.char-info-word-pill {
   font-family: var(--font-family-zh);
+  font-size: 14px;
+  background: #EFF6FF;
+  color: var(--color-primary-dark);
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-weight: 500;
+}
+
+.char-info-sentence {
+  font-family: var(--font-family-zh);
+  font-size: 14px;
+  color: var(--color-text);
+  margin: 0;
+  line-height: 1.8;
+  padding: 4px 0;
+}
+
+.char-info-hint {
+  padding: 8px 0;
+}
+
+.char-info-hint p {
+  font-family: var(--font-family-zh);
+  font-size: 12px;
+  color: var(--color-text-light);
+  margin: 0;
 }
 
 /* Stroke Progress */

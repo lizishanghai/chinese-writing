@@ -18,6 +18,8 @@ interface WritingAreaProps {
   quizCallbacks: QuizCallbacks;
   onQuizStart: (totalStrokes: number) => void;
   onStrokeAnimate?: (strokeNum: number) => void;
+  onReadWords?: () => void;
+  onNext?: () => void;
 }
 
 export function WritingArea({
@@ -30,6 +32,8 @@ export function WritingArea({
   quizCallbacks,
   onQuizStart,
   onStrokeAnimate,
+  onReadWords,
+  onNext,
 }: WritingAreaProps) {
   const controlsRef = useRef<{
     animate: () => void;
@@ -55,10 +59,6 @@ export function WritingArea({
       controlsRef.current?.animate();
     }
   }, [onStrokeAnimate]);
-
-  const handleLoop = useCallback(() => {
-    controlsRef.current?.loopAnimation();
-  }, []);
 
   const handleModeChange = useCallback((newMode: AppMode) => {
     onModeChange(newMode);
@@ -90,7 +90,8 @@ export function WritingArea({
 
       <AnimationControls
         onAnimate={handleAnimate}
-        onLoop={handleLoop}
+        onReadWords={onReadWords}
+        onNext={onNext}
         isDemo={mode === 'demo'}
       />
 

@@ -3,6 +3,7 @@ import type { DifficultyLevel, AppMode } from './types';
 import { characterLibrary } from './data/characterLibrary';
 import { useQuiz } from './hooks/useQuiz';
 import { useStrokeAudio } from './hooks/useStrokeAudio';
+import { speakChinese } from './utils/speechService';
 import { useResponsive } from './hooks/useResponsive';
 import { AppLayout } from './components/Layout/AppLayout';
 import { Sidebar } from './components/Sidebar/Sidebar';
@@ -122,6 +123,15 @@ export default function App() {
     setMode('demo');
   }, [level, character, resetQuiz]);
 
+  const handleReadWords = useCallback(() => {
+    const entry = characterLibrary[level].characters.find(c => c.char === character);
+    if (!entry) return;
+    const parts: string[] = [entry.char];
+    if (entry.words) parts.push(entry.words.join('，'));
+    if (entry.sentence) parts.push(entry.sentence);
+    speakChinese(parts.join('。'));
+  }, [level, character]);
+
   return (
     <AppLayout
       sidebar={
@@ -144,6 +154,8 @@ export default function App() {
           quizCallbacks={quizCallbacks}
           onQuizStart={startQuiz}
           onStrokeAnimate={speakStrokeName}
+          onReadWords={handleReadWords}
+          onNext={handleNext}
         />
       }
       feedbackPanel={
@@ -151,6 +163,7 @@ export default function App() {
           mode={mode}
           quizState={quizState}
           lastEvent={lastEvent}
+          characterEntry={characterLibrary[level].characters.find(c => c.char === character)}
           onRetry={handleRetry}
           onNext={handleNext}
         />
