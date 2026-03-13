@@ -14,20 +14,20 @@
 }
 
 .charinfo-char {
-  font-size: 36px;
+  font-size: 42px;
   font-family: var(--font-family-zh);
   font-weight: 700;
   color: var(--color-primary-dark);
 }
 
 .charinfo-pinyin {
-  font-size: 18px;
+  font-size: 20px;
   color: var(--color-primary);
   font-weight: 600;
 }
 
 .charinfo-meaning {
-  font-size: 14px;
+  font-size: 16px;
   color: var(--color-text-light);
 }
 
@@ -53,16 +53,21 @@
   display: flex;
   align-items: center;
   gap: 6px;
-  padding: 8px 20px;
+  padding: 12px 24px;
   border: none;
   border-radius: var(--radius-md);
   background: transparent;
   cursor: pointer;
   font-family: var(--font-family);
-  font-size: 14px;
+  font-size: 16px;
   font-weight: 600;
   color: var(--color-text-light);
   transition: all 0.2s ease;
+  min-height: 48px;
+}
+
+.mode-btn:active {
+  transform: scale(0.95);
 }
 
 .mode-btn:hover {
@@ -193,17 +198,22 @@
 .ctrl-btn {
   display: flex;
   align-items: center;
-  gap: 6px;
-  padding: 10px 20px;
+  gap: 8px;
+  padding: 12px 24px;
   border: 2px solid var(--color-border);
   border-radius: var(--radius-md);
   background: white;
   cursor: pointer;
   font-family: var(--font-family);
-  font-size: 14px;
+  font-size: 16px;
   font-weight: 600;
   color: var(--color-text);
   transition: all 0.2s ease;
+  min-height: 48px;
+}
+
+.ctrl-btn:active {
+  transform: scale(0.95);
 }
 
 .ctrl-btn:hover {
@@ -232,7 +242,7 @@
 /* Hint */
 .writing-hint {
   text-align: center;
-  font-size: 14px;
+  font-size: 16px;
   color: var(--color-text-light);
   margin: 0;
   animation: fadeInUp 0.3s ease-out;
@@ -240,7 +250,7 @@
 
 .writing-hint-zh {
   font-family: var(--font-family-zh);
-  font-size: 13px;
+  font-size: 15px;
 }
 
 /* Practice Controls */
@@ -253,5 +263,13 @@
 
 .practice-nav {
   display: flex;
-  gap: 8px;
+  gap: 10px;
+  width: 100%;
+  justify-content: center;
+}
+
+.practice-nav .ctrl-btn {
+  flex: 1;
+  justify-content: center;
+  max-width: 200px;
 }

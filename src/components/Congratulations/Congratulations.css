@@ -98,14 +98,14 @@
 }
 
 .congrats-char {
-  width: 48px;
-  height: 48px;
+  width: 56px;
+  height: 56px;
   display: flex;
   align-items: center;
   justify-content: center;
   background: var(--color-sidebar-bg);
-  border-radius: 12px;
-  font-size: 24px;
+  border-radius: 14px;
+  font-size: 28px;
   font-family: var(--font-family-zh);
   color: var(--color-primary);
   font-weight: 700;
@@ -139,8 +139,9 @@
 .congrats-btn {
   width: 100%;
   padding: 14px 24px !important;
-  font-size: 16px !important;
+  font-size: 18px !important;
   border-radius: 12px !important;
+  min-height: 52px;
 }
 
 .congrats-finish {

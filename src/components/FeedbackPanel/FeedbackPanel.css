@@ -30,7 +30,7 @@
 
 .char-info-label {
   font-family: var(--font-family-zh);
-  font-size: 13px;
+  font-size: 15px;
   font-weight: 700;
   color: var(--color-primary);
   margin: 0 0 8px;
@@ -56,17 +56,17 @@
 
 .char-info-word-pill {
   font-family: var(--font-family-zh);
-  font-size: 14px;
+  font-size: 16px;
   background: #EFF6FF;
   color: var(--color-primary-dark);
-  padding: 4px 10px;
+  padding: 6px 12px;
   border-radius: 12px;
   font-weight: 500;
 }
 
 .char-info-sentence {
   font-family: var(--font-family-zh);
-  font-size: 14px;
+  font-size: 16px;
   color: var(--color-text);
   margin: 0;
   line-height: 1.8;
@@ -93,7 +93,7 @@
 }
 
 .stroke-progress-title {
-  font-size: 14px;
+  font-size: 16px;
   font-weight: 700;
   color: var(--color-text);
   margin: 0 0 10px;
@@ -117,7 +117,7 @@
 
 .stroke-progress-label {
   text-align: center;
-  font-size: 12px;
+  font-size: 14px;
   color: var(--color-text-light);
   font-weight: 600;
   margin-bottom: 10px;
@@ -131,13 +131,13 @@
 }
 
 .stroke-dot {
-  width: 28px;
-  height: 28px;
+  width: 34px;
+  height: 34px;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 11px;
+  font-size: 13px;
   font-weight: 700;
   background: #F1F5F9;
   color: var(--color-text-light);
@@ -178,14 +178,14 @@
 }
 
 .score-label {
-  font-size: 13px;
+  font-size: 15px;
   color: var(--color-text-light);
   font-family: var(--font-family-zh);
 }
 
 .score-perfect {
   margin-top: 8px;
-  font-size: 12px;
+  font-size: 14px;
   color: var(--color-success);
   font-weight: 600;
 }
@@ -214,11 +214,11 @@
 }
 
 .encouragement-en {
-  font-size: 16px;
+  font-size: 18px;
 }
 
 .encouragement-zh {
-  font-size: 14px;
+  font-size: 16px;
   font-family: var(--font-family-zh);
   opacity: 0.8;
 }
@@ -236,7 +236,7 @@
 }
 
 .feedback-idle p {
-  font-size: 13px;
+  font-size: 15px;
   color: var(--color-text-light);
   margin: 0 0 4px;
 }
@@ -257,5 +257,6 @@
   .feedback-actions .ctrl-btn {
     flex: 1;
     justify-content: center;
+    min-height: 48px;
   }
 }

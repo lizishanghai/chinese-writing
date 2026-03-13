@@ -58,6 +58,10 @@
   border-color: var(--color-primary);
 }
 
+.level-card:active {
+  transform: scale(0.97);
+}
+
 .level-card--completed {
   background: linear-gradient(135deg, #DBEAFE, #EDE9FE);
   border-color: var(--color-primary);
@@ -79,21 +83,21 @@
 }
 
 .level-card-name {
-  font-size: 14px;
+  font-size: 16px;
   font-family: var(--font-family-zh);
   color: var(--color-text);
   font-weight: 600;
 }
 
 .level-card-chars {
-  font-size: 13px;
+  font-size: 15px;
   color: var(--color-text-light);
   font-family: var(--font-family-zh);
   letter-spacing: 2px;
 }
 
 .level-card-progress {
-  font-size: 11px;
+  font-size: 13px;
   color: var(--color-accent);
   font-weight: 700;
   position: absolute;
@@ -113,7 +117,7 @@
   }
 
   .level-select-title {
-    font-size: 28px;
+    font-size: 32px;
   }
 
   .level-grid {
@@ -122,11 +126,11 @@
   }
 
   .level-card {
-    min-height: 100px;
-    padding: 12px 8px;
+    min-height: 130px;
+    padding: 16px 12px;
   }
 
   .level-card-num {
-    font-size: 24px;
+    font-size: 28px;
   }
 }

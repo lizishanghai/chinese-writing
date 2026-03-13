@@ -35,6 +35,6 @@
   :root {
     --sidebar-width: 100%;
     --feedback-width: 100%;
-    --canvas-size: min(280px, 85vw);
+    --canvas-size: min(320px, 90vw);
   }
 }

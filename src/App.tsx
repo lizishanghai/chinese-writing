@@ -12,6 +12,7 @@ import { Congratulations } from './components/Congratulations/Congratulations';
 
 import './styles/variables.css';
 import './styles/animations.css';
+import './components/Layout/AppLayout.css';
 
 type Page = 'levelSelect' | 'practice' | 'congrats';
 
