@@ -29,6 +29,30 @@
   margin: 0;
 }
 
+.level-select-test-btn {
+  margin-top: 16px;
+  background: linear-gradient(135deg, #8B5CF6, #6D28D9);
+  color: white;
+  border: none;
+  border-radius: 14px;
+  padding: 12px 28px;
+  font-size: 18px;
+  font-weight: 700;
+  cursor: pointer;
+  min-height: 48px;
+  transition: all 0.2s;
+  box-shadow: 0 4px 12px rgba(139,92,246,0.3);
+}
+
+.level-select-test-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(139,92,246,0.4);
+}
+
+.level-select-test-btn:active {
+  transform: scale(0.97);
+}
+
 .level-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);

@@ -1,5 +1,5 @@
 import { useState, useCallback, useEffect, useRef } from 'react';
-import type { AppMode } from './types';
+import type { AppMode, TestType, TestResultData } from './types';
 import { getLevelConfig, TOTAL_LEVEL_COUNT } from './data/characterLibrary';
 import { useQuiz } from './hooks/useQuiz';
 import { useStrokeAudio } from './hooks/useStrokeAudio';
@@ -9,12 +9,18 @@ import { WritingArea } from './components/WritingArea/WritingArea';
 import { FeedbackPanel } from './components/FeedbackPanel/FeedbackPanel';
 import { LevelSelect } from './components/LevelSelect/LevelSelect';
 import { Congratulations } from './components/Congratulations/Congratulations';
+import { TestSelect } from './components/Test/TestSelect';
+import { RecognitionTest } from './components/Test/RecognitionTest';
+import { ListeningTest } from './components/Test/ListeningTest';
+import { TestResult } from './components/Test/TestResult';
+import { generateRecognitionQuestions, generateListeningQuestions } from './utils/testGenerator';
+import type { TestQuestion } from './types';
 
 import './styles/variables.css';
 import './styles/animations.css';
 import './components/Layout/AppLayout.css';
 
-type Page = 'levelSelect' | 'practice' | 'congrats';
+type Page = 'levelSelect' | 'practice' | 'congrats' | 'testSelect' | 'test' | 'testResult';
 
 function loadScores(): Record<string, number> {
   try {
@@ -57,6 +63,10 @@ export default function App() {
   const [scores, setScores] = useState<Record<string, number>>(loadScores);
   const [completedLevels, setCompletedLevels] = useState<Set<number>>(loadCompletedLevels);
   const [lastEvent, setLastEvent] = useState<'correct' | 'mistake' | null>(null);
+  const [testType, setTestType] = useState<TestType>('recognition');
+  const [testLevels, setTestLevels] = useState<number[]>([]);
+  const [testQuestions, setTestQuestions] = useState<TestQuestion[]>([]);
+  const [testResult, setTestResult] = useState<TestResultData | null>(null);
   const { canvasSize } = useResponsive();
 
   const levelConfig = getLevelConfig(level);
@@ -180,6 +190,40 @@ export default function App() {
     setPage('practice');
   }, [level, resetQuiz]);
 
+  // Test handlers
+  const handleGoToTest = useCallback(() => {
+    setPage('testSelect');
+  }, []);
+
+  const handleStartTest = useCallback((type: TestType, levels: number[]) => {
+    setTestType(type);
+    setTestLevels(levels);
+    const questions = type === 'recognition'
+      ? generateRecognitionQuestions(levels)
+      : generateListeningQuestions(levels);
+    setTestQuestions(questions);
+    setTestResult(null);
+    setPage('test');
+  }, []);
+
+  const handleTestComplete = useCallback((result: TestResultData) => {
+    setTestResult(result);
+    setPage('testResult');
+  }, []);
+
+  const handleTestRetry = useCallback(() => {
+    const questions = testType === 'recognition'
+      ? generateRecognitionQuestions(testLevels)
+      : generateListeningQuestions(testLevels);
+    setTestQuestions(questions);
+    setTestResult(null);
+    setPage('test');
+  }, [testType, testLevels]);
+
+  const handleBackFromTest = useCallback(() => {
+    setPage('levelSelect');
+  }, []);
+
   const handleReadWords = useCallback(() => {
     if (!characterEntry) return;
     const parts: string[] = [characterEntry.char];
@@ -195,6 +239,50 @@ export default function App() {
         onSelectLevel={handleSelectLevel}
         completedLevels={completedLevels}
         scores={scores}
+        onGoToTest={completedLevels.size > 0 ? handleGoToTest : undefined}
+      />
+    );
+  }
+
+  // Test select page
+  if (page === 'testSelect') {
+    return (
+      <TestSelect
+        completedLevels={completedLevels}
+        onStartTest={handleStartTest}
+        onBack={handleBackFromTest}
+      />
+    );
+  }
+
+  // Test in progress
+  if (page === 'test') {
+    if (testType === 'recognition') {
+      return (
+        <RecognitionTest
+          questions={testQuestions}
+          onComplete={handleTestComplete}
+          onBack={handleBackFromTest}
+        />
+      );
+    }
+    return (
+      <ListeningTest
+        questions={testQuestions}
+        onComplete={handleTestComplete}
+        onBack={handleBackFromTest}
+      />
+    );
+  }
+
+  // Test result
+  if (page === 'testResult' && testResult) {
+    return (
+      <TestResult
+        result={testResult}
+        testType={testType}
+        onRetry={handleTestRetry}
+        onBack={handleBackFromTest}
       />
     );
   }

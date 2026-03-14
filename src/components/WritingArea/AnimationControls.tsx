@@ -11,14 +11,14 @@ export function AnimationControls({ onAnimate, onReadWords, isDemo }: AnimationC
 
   return (
     <div className="animation-controls">
-      <button className="ctrl-btn" onClick={onAnimate}>
-        <span>✏️</span> 写字
-      </button>
       {onReadWords && (
         <button className="ctrl-btn" onClick={onReadWords}>
           <span>🔊</span> 朗读
         </button>
       )}
+      <button className="ctrl-btn" onClick={onAnimate}>
+        <span>✏️</span> 写字
+      </button>
     </div>
   );
 }

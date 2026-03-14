@@ -35,6 +35,23 @@ export interface AppState {
   quizState: QuizState;
 }
 
+// Test types
+export type TestType = 'recognition' | 'listening';
+
+export interface TestQuestion {
+  type: 'charToPinyin' | 'pinyinToChar' | 'listening';
+  target: CharacterEntry;
+  options?: string[];  // 4 options for multiple choice
+  correctIndex?: number;
+}
+
+export interface TestResultData {
+  questions: TestQuestion[];
+  answers: (number | null)[];
+  correct: boolean[];
+  score: number;
+}
+
 export type AppAction =
   | { type: 'SET_LEVEL'; level: DifficultyLevel }
   | { type: 'SET_CHARACTER'; character: string }
