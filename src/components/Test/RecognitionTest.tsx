@@ -21,19 +21,16 @@ export function RecognitionTest({ questions, onComplete, onBack }: RecognitionTe
   const total = questions.length;
   const isCorrect = selectedAnswer === question?.correctIndex;
 
-  // Read question aloud when it appears
+  // Read hint and question aloud when it appears
   useEffect(() => {
     if (!question) return;
-    const timer = setTimeout(() => {
-      if (question.type === 'charToPinyin') {
-        // Show character → read it aloud
-        speakChinese(question.target.char);
-      } else {
-        // Show pinyin → read the pinyin aloud
-        speakChinese(question.target.char);
-      }
-    }, 300);
-    return () => clearTimeout(timer);
+    const hint = question.type === 'charToPinyin'
+      ? '这个字的拼音是？'
+      : '请选择正确的汉字';
+    // Read hint first, then the character after a pause
+    const timer1 = setTimeout(() => speakChinese(hint), 300);
+    const timer2 = setTimeout(() => speakChinese(question.target.char), 2500);
+    return () => { clearTimeout(timer1); clearTimeout(timer2); };
   }, [currentIndex, question]);
 
   const handleSelect = useCallback((optionIndex: number) => {

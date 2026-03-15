@@ -59,8 +59,9 @@ export function ListeningTest({ questions, onComplete, onBack }: ListeningTestPr
       },
       onLoadCharDataSuccess: () => {
         writerRef.current = writer;
-        // Auto-play audio when character loads
-        setTimeout(() => speakChinese(question.target.char), 500);
+        // Read hint first, then play character audio
+        setTimeout(() => speakChinese('听声音，写出这个汉字'), 300);
+        setTimeout(() => speakChinese(question.target.char), 2500);
         // Start quiz mode
         writer.quiz({
           leniency: 1.2,
