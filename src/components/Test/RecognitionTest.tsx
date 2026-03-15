@@ -1,6 +1,7 @@
 import { useState, useCallback, useEffect } from 'react';
 import type { TestQuestion, TestResultData } from '../../types';
 import { playCompletionChime } from '../../utils/soundEffects';
+import { speakChinese } from '../../utils/speechService';
 import './Test.css';
 
 interface RecognitionTestProps {
@@ -19,6 +20,21 @@ export function RecognitionTest({ questions, onComplete, onBack }: RecognitionTe
   const question = questions[currentIndex];
   const total = questions.length;
   const isCorrect = selectedAnswer === question?.correctIndex;
+
+  // Read question aloud when it appears
+  useEffect(() => {
+    if (!question) return;
+    const timer = setTimeout(() => {
+      if (question.type === 'charToPinyin') {
+        // Show character → read it aloud
+        speakChinese(question.target.char);
+      } else {
+        // Show pinyin → read the pinyin aloud
+        speakChinese(question.target.char);
+      }
+    }, 300);
+    return () => clearTimeout(timer);
+  }, [currentIndex, question]);
 
   const handleSelect = useCallback((optionIndex: number) => {
     if (showFeedback) return; // Already answered
@@ -86,12 +102,14 @@ export function RecognitionTest({ questions, onComplete, onBack }: RecognitionTe
         {isCharToPinyin ? (
           <div className="test-question-prompt">
             <div className="test-question-char">{question.target.char}</div>
+            <button className="test-speak-btn" onClick={() => speakChinese(question.target.char)}>🔊</button>
             <div className="test-question-hint">这个字的拼音是？</div>
           </div>
         ) : (
           <div className="test-question-prompt">
             <div className="test-question-pinyin">{question.target.pinyin}</div>
             <div className="test-question-meaning">{question.target.meaning}</div>
+            <button className="test-speak-btn" onClick={() => speakChinese(question.target.char)}>🔊</button>
             <div className="test-question-hint">请选择正确的汉字</div>
           </div>
         )}

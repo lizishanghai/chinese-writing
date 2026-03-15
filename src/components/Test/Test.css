@@ -255,6 +255,26 @@
   width: 100%;
 }
 
+.test-speak-btn {
+  background: none;
+  border: 2px solid #E5E7EB;
+  border-radius: 50%;
+  width: 48px;
+  height: 48px;
+  font-size: 24px;
+  cursor: pointer;
+  margin: 8px auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+}
+
+.test-speak-btn:active {
+  transform: scale(0.9);
+  background: #EFF6FF;
+}
+
 .test-question-prompt {
   text-align: center;
 }
