@@ -1,7 +1,7 @@
 import { useState, useCallback, useEffect } from 'react';
 import type { TestQuestion, TestResultData } from '../../types';
 import { playCompletionChime } from '../../utils/soundEffects';
-import { speakChinese } from '../../utils/speechService';
+import { speakChinese, speakChineseSequence } from '../../utils/speechService';
 import './Test.css';
 
 interface RecognitionTestProps {
@@ -21,16 +21,16 @@ export function RecognitionTest({ questions, onComplete, onBack }: RecognitionTe
   const total = questions.length;
   const isCorrect = selectedAnswer === question?.correctIndex;
 
-  // Read hint and question aloud when it appears
+  // Read hint and question aloud in sequence when it appears
   useEffect(() => {
     if (!question) return;
     const hint = question.type === 'charToPinyin'
       ? '这个字的拼音是？'
       : '请选择正确的汉字';
-    // Read hint first, then the character after a pause
-    const timer1 = setTimeout(() => speakChinese(hint), 300);
-    const timer2 = setTimeout(() => speakChinese(question.target.char), 2500);
-    return () => { clearTimeout(timer1); clearTimeout(timer2); };
+    const timer = setTimeout(() => {
+      speakChineseSequence([hint, question.target.char], 600);
+    }, 300);
+    return () => { clearTimeout(timer); speechSynthesis?.cancel(); };
   }, [currentIndex, question]);
 
   const handleSelect = useCallback((optionIndex: number) => {

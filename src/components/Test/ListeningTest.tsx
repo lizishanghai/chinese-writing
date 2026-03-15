@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect, useCallback } from 'react';
 import HanziWriter from 'hanzi-writer';
 import type { TestQuestion, TestResultData } from '../../types';
-import { speakChinese } from '../../utils/speechService';
+import { speakChinese, speakChineseSequence } from '../../utils/speechService';
 import { playCompletionChime } from '../../utils/soundEffects';
 import { useResponsive } from '../../hooks/useResponsive';
 import './Test.css';
@@ -59,9 +59,10 @@ export function ListeningTest({ questions, onComplete, onBack }: ListeningTestPr
       },
       onLoadCharDataSuccess: () => {
         writerRef.current = writer;
-        // Read hint first, then play character audio
-        setTimeout(() => speakChinese('听声音，写出这个汉字'), 300);
-        setTimeout(() => speakChinese(question.target.char), 2500);
+        // Read hint first, then play character audio in sequence
+        setTimeout(() => {
+          speakChineseSequence(['听声音，写出这个汉字', question.target.char], 600);
+        }, 300);
         // Start quiz mode
         writer.quiz({
           leniency: 1.2,
