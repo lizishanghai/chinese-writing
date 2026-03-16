@@ -1,0 +1,481 @@
+/* ========== Reading Select ========== */
+.reading-select {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #ECFDF5 0%, #DBEAFE 50%, #FFF7ED 100%);
+  padding: 20px;
+}
+
+.reading-select-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 8px;
+}
+
+.reading-back-btn {
+  background: rgba(255,255,255,0.7);
+  border: 2px solid rgba(0,0,0,0.1);
+  border-radius: 12px;
+  padding: 10px 16px;
+  font-size: 16px;
+  cursor: pointer;
+  min-height: 48px;
+  transition: all 0.2s;
+}
+
+.reading-back-btn:active {
+  transform: scale(0.95);
+}
+
+.reading-select-title {
+  font-size: 28px;
+  margin: 0;
+}
+
+.reading-select-subtitle {
+  color: #6B7280;
+  font-size: 16px;
+  margin: 0 0 20px;
+}
+
+.reading-level-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 12px;
+  max-width: 700px;
+}
+
+.reading-level-card {
+  background: white;
+  border: 2px solid #E5E7EB;
+  border-radius: 16px;
+  padding: 16px;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  text-align: left;
+  min-height: 48px;
+}
+
+.reading-level-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+  border-color: #10B981;
+}
+
+.reading-level-card:active {
+  transform: scale(0.97);
+}
+
+.reading-level-num {
+  font-size: 14px;
+  font-weight: 700;
+  color: #10B981;
+}
+
+.reading-level-name {
+  font-size: 18px;
+  font-weight: 600;
+  color: #1F2937;
+}
+
+.reading-level-chars {
+  font-size: 16px;
+  color: #6B7280;
+  letter-spacing: 3px;
+}
+
+/* ========== Reading Page ========== */
+.reading-page {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #ECFDF5 0%, #FFF7ED 100%);
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+}
+
+.reading-page-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.reading-progress {
+  flex: 1;
+}
+
+.reading-progress-text {
+  font-size: 16px;
+  font-weight: 600;
+  color: #374151;
+}
+
+/* Reading Card */
+.reading-card {
+  background: white;
+  border-radius: 20px;
+  padding: 24px;
+  max-width: 500px;
+  margin: 0 auto;
+  width: 100%;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.reading-card-header {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.reading-card-char {
+  font-size: 72px;
+  font-weight: 700;
+  color: #1F2937;
+  cursor: pointer;
+  transition: all 0.2s;
+  line-height: 1.2;
+}
+
+.reading-card-char:active {
+  transform: scale(0.95);
+  color: #3B82F6;
+}
+
+.reading-card-pinyin {
+  font-size: 22px;
+  color: #3B82F6;
+  font-weight: 600;
+}
+
+.reading-card-meaning {
+  font-size: 16px;
+  color: #6B7280;
+}
+
+.reading-card-emoji {
+  font-size: 28px;
+}
+
+.reading-card-section {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.reading-card-label {
+  font-size: 14px;
+  font-weight: 600;
+  color: #9CA3AF;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+/* Word pills */
+.reading-word-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.reading-word-pill {
+  background: #F0FDF4;
+  border: 2px solid #BBF7D0;
+  border-radius: 12px;
+  padding: 10px 18px;
+  font-size: 20px;
+  font-weight: 600;
+  color: #166534;
+  cursor: pointer;
+  transition: all 0.2s;
+  min-height: 48px;
+}
+
+.reading-word-pill:active {
+  transform: scale(0.95);
+  background: #DCFCE7;
+}
+
+/* Sentence */
+.reading-sentence {
+  font-size: 22px;
+  line-height: 2;
+  color: #1F2937;
+  cursor: pointer;
+  padding: 12px 16px;
+  background: #FEFCE8;
+  border-radius: 12px;
+  border: 2px solid #FEF08A;
+  transition: all 0.2s;
+}
+
+.reading-sentence:active {
+  background: #FEF9C3;
+}
+
+.reading-char-learned {
+  font-weight: 700;
+  color: #1F2937;
+}
+
+.reading-ruby {
+  font-size: inherit;
+}
+
+.reading-ruby--unlearned {
+  color: #9CA3AF;
+}
+
+.reading-ruby--unlearned rt {
+  font-size: 10px;
+  color: #3B82F6;
+  font-weight: 600;
+}
+
+/* Read aloud button */
+.reading-read-btn {
+  background: linear-gradient(135deg, #10B981, #059669);
+  color: white;
+  border: none;
+  border-radius: 14px;
+  padding: 14px 20px;
+  font-size: 18px;
+  font-weight: 700;
+  cursor: pointer;
+  min-height: 52px;
+  transition: all 0.2s;
+  box-shadow: 0 4px 12px rgba(16,185,129,0.3);
+  align-self: center;
+}
+
+.reading-read-btn:active {
+  transform: scale(0.97);
+}
+
+/* Navigation */
+.reading-nav {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 16px;
+  max-width: 500px;
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.reading-nav-btn {
+  background: white;
+  border: 2px solid #E5E7EB;
+  border-radius: 12px;
+  padding: 12px 20px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  min-height: 48px;
+  transition: all 0.2s;
+}
+
+.reading-nav-btn:active {
+  transform: scale(0.95);
+}
+
+.reading-nav-btn--quiz {
+  background: linear-gradient(135deg, #8B5CF6, #6D28D9);
+  color: white;
+  border: none;
+  box-shadow: 0 4px 12px rgba(139,92,246,0.3);
+}
+
+/* ========== Reading Quiz ========== */
+.reading-quiz-page {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #ECFDF5 0%, #FFF7ED 100%);
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+}
+
+.reading-quiz-card {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 24px;
+  max-width: 500px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.reading-quiz-prompt {
+  text-align: center;
+}
+
+.reading-quiz-word {
+  font-size: 48px;
+  font-weight: 700;
+  color: #1F2937;
+}
+
+.reading-quiz-hint {
+  font-size: 16px;
+  color: #9CA3AF;
+  margin-top: 8px;
+}
+
+.reading-quiz-options {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  width: 100%;
+}
+
+.reading-quiz-option {
+  background: white;
+  border: 3px solid #E5E7EB;
+  border-radius: 16px;
+  padding: 14px;
+  font-size: 16px;
+  font-weight: 600;
+  color: #374151;
+  cursor: pointer;
+  min-height: 56px;
+  transition: all 0.2s;
+}
+
+.reading-quiz-option:active:not(:disabled) {
+  transform: scale(0.95);
+}
+
+.reading-quiz-option--correct {
+  border-color: #10B981;
+  background: #ECFDF5;
+}
+
+.reading-quiz-option--wrong {
+  border-color: #EF4444;
+  background: #FEF2F2;
+}
+
+.reading-quiz-feedback {
+  font-size: 18px;
+  font-weight: 600;
+  padding: 12px 20px;
+  border-radius: 12px;
+  text-align: center;
+}
+
+.reading-quiz-feedback--correct {
+  background: #ECFDF5;
+  color: #059669;
+}
+
+.reading-quiz-feedback--wrong {
+  background: #FEF2F2;
+  color: #DC2626;
+}
+
+/* ========== Quiz Result ========== */
+.reading-quiz-result {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #ECFDF5 0%, #DBEAFE 50%, #FFF7ED 100%);
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.reading-quiz-result-card {
+  background: rgba(255,255,255,0.9);
+  border-radius: 24px;
+  padding: 32px 24px;
+  max-width: 400px;
+  width: 100%;
+  text-align: center;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+}
+
+.reading-quiz-result-emoji {
+  font-size: 56px;
+  margin-bottom: 8px;
+}
+
+.reading-quiz-result-score {
+  font-size: 42px;
+  font-weight: 800;
+  color: #10B981;
+  margin-bottom: 8px;
+}
+
+.reading-quiz-result-text {
+  font-size: 20px;
+  font-weight: 600;
+  color: #374151;
+  margin-bottom: 24px;
+}
+
+.reading-quiz-result-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.reading-quiz-btn {
+  width: 100%;
+  border: none;
+  border-radius: 14px;
+  padding: 14px 20px;
+  font-size: 18px;
+  font-weight: 700;
+  cursor: pointer;
+  min-height: 52px;
+  background: rgba(0,0,0,0.05);
+  color: #374151;
+  transition: all 0.2s;
+}
+
+.reading-quiz-btn:active {
+  transform: scale(0.97);
+}
+
+.reading-quiz-btn--primary {
+  background: linear-gradient(135deg, #10B981, #059669);
+  color: white;
+  box-shadow: 0 4px 12px rgba(16,185,129,0.3);
+}
+
+/* ========== Mobile ========== */
+@media (max-width: 480px) {
+  .reading-select {
+    padding: 14px;
+  }
+
+  .reading-card {
+    padding: 18px;
+  }
+
+  .reading-card-char {
+    font-size: 56px;
+  }
+
+  .reading-sentence {
+    font-size: 20px;
+  }
+
+  .reading-quiz-word {
+    font-size: 40px;
+  }
+
+  .reading-level-grid {
+    grid-template-columns: 1fr;
+  }
+}

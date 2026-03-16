@@ -14,13 +14,15 @@ import { RecognitionTest } from './components/Test/RecognitionTest';
 import { ListeningTest } from './components/Test/ListeningTest';
 import { TestResult } from './components/Test/TestResult';
 import { generateRecognitionQuestions, generateListeningQuestions } from './utils/testGenerator';
+import { ReadingSelect } from './components/Reading/ReadingSelect';
+import { Reading } from './components/Reading/Reading';
 import type { TestQuestion } from './types';
 
 import './styles/variables.css';
 import './styles/animations.css';
 import './components/Layout/AppLayout.css';
 
-type Page = 'levelSelect' | 'practice' | 'congrats' | 'testSelect' | 'test' | 'testResult';
+type Page = 'levelSelect' | 'practice' | 'congrats' | 'testSelect' | 'test' | 'testResult' | 'readingSelect' | 'reading';
 
 function loadScores(): Record<string, number> {
   try {
@@ -67,6 +69,7 @@ export default function App() {
   const [testLevels, setTestLevels] = useState<number[]>([]);
   const [testQuestions, setTestQuestions] = useState<TestQuestion[]>([]);
   const [testResult, setTestResult] = useState<TestResultData | null>(null);
+  const [readingLevel, setReadingLevel] = useState(1);
   const { canvasSize } = useResponsive();
 
   const levelConfig = getLevelConfig(level);
@@ -224,6 +227,20 @@ export default function App() {
     setPage('levelSelect');
   }, []);
 
+  // Reading handlers
+  const handleGoToReading = useCallback(() => {
+    setPage('readingSelect');
+  }, []);
+
+  const handleSelectReadingLevel = useCallback((lvl: number) => {
+    setReadingLevel(lvl);
+    setPage('reading');
+  }, []);
+
+  const handleBackFromReading = useCallback(() => {
+    setPage('levelSelect');
+  }, []);
+
   const handleReadWords = useCallback(() => {
     if (!characterEntry) return;
     const parts: string[] = [characterEntry.char];
@@ -240,6 +257,7 @@ export default function App() {
         completedLevels={completedLevels}
         scores={scores}
         onGoToTest={completedLevels.size > 0 ? handleGoToTest : undefined}
+        onGoToReading={completedLevels.size > 0 ? handleGoToReading : undefined}
       />
     );
   }
@@ -283,6 +301,28 @@ export default function App() {
         testType={testType}
         onRetry={handleTestRetry}
         onBack={handleBackFromTest}
+      />
+    );
+  }
+
+  // Reading select page
+  if (page === 'readingSelect') {
+    return (
+      <ReadingSelect
+        completedLevels={completedLevels}
+        onSelectLevel={handleSelectReadingLevel}
+        onBack={handleBackFromReading}
+      />
+    );
+  }
+
+  // Reading page
+  if (page === 'reading') {
+    return (
+      <Reading
+        level={readingLevel}
+        completedLevels={completedLevels}
+        onBack={handleBackFromReading}
       />
     );
   }
