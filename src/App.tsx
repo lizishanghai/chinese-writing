@@ -22,15 +22,18 @@ import { DailyChallenge } from './components/DailyChallenge/DailyChallenge';
 import { DailyChallengeQuiz } from './components/DailyChallenge/DailyChallengeQuiz';
 import { ReadAlongSelect } from './components/ReadAlong/ReadAlongSelect';
 import { ReadAlong } from './components/ReadAlong/ReadAlong';
+import { WordGameSelect } from './components/WordGame/WordGameSelect';
+import { WordGame, WordGameResultView } from './components/WordGame/WordGame';
+import { generateWordGameQuestions } from './utils/wordGameGenerator';
 import { generateDailyChallenge, getTodayStr, saveDailyChallengeResult } from './utils/dailyChallengeGenerator';
 import { playCelebrationFanfare, playCompletionChime } from './utils/soundEffects';
-import type { TestQuestion } from './types';
+import type { TestQuestion, WordGameQuestion, WordGameResult } from './types';
 
 import './styles/variables.css';
 import './styles/animations.css';
 import './components/Layout/AppLayout.css';
 
-type Page = 'home' | 'levelSelect' | 'practice' | 'congrats' | 'testSelect' | 'test' | 'testResult' | 'readingSelect' | 'reading' | 'dailyChallenge' | 'dailyChallengeQuiz' | 'readAlongSelect' | 'readAlong';
+type Page = 'home' | 'levelSelect' | 'practice' | 'congrats' | 'testSelect' | 'test' | 'testResult' | 'readingSelect' | 'reading' | 'dailyChallenge' | 'dailyChallengeQuiz' | 'readAlongSelect' | 'readAlong' | 'wordGameSelect' | 'wordGame' | 'wordGameResult';
 
 function loadScores(): Record<string, number> {
   try {
@@ -80,6 +83,8 @@ export default function App() {
   const [readingLevel, setReadingLevel] = useState(1);
   const [dailyQuestions, setDailyQuestions] = useState<TestQuestion[]>([]);
   const [readAlongLevel, setReadAlongLevel] = useState(1);
+  const [wordGameQuestions, setWordGameQuestions] = useState<WordGameQuestion[]>([]);
+  const [wordGameResult, setWordGameResult] = useState<WordGameResult | null>(null);
   const { canvasSize } = useResponsive();
 
   const levelConfig = getLevelConfig(level);
@@ -310,6 +315,35 @@ export default function App() {
     setPage('home');
   }, []);
 
+  // Word game handlers
+  const handleGoToWordGame = useCallback(() => {
+    setPage('wordGameSelect');
+  }, []);
+
+  const handleStartWordGame = useCallback((levels: number[]) => {
+    const lvlSet = new Set(levels);
+    const questions = generateWordGameQuestions(lvlSet);
+    setWordGameQuestions(questions);
+    setWordGameResult(null);
+    setPage('wordGame');
+  }, []);
+
+  const handleWordGameComplete = useCallback((result: WordGameResult) => {
+    setWordGameResult(result);
+    setPage('wordGameResult');
+  }, []);
+
+  const handleWordGameRetry = useCallback(() => {
+    const questions = generateWordGameQuestions(completedLevels);
+    setWordGameQuestions(questions);
+    setWordGameResult(null);
+    setPage('wordGame');
+  }, [completedLevels]);
+
+  const handleBackFromWordGame = useCallback(() => {
+    setPage('home');
+  }, []);
+
   const handleReadWords = useCallback(() => {
     if (!characterEntry) return;
     const parts: string[] = [characterEntry.char];
@@ -328,6 +362,7 @@ export default function App() {
         onGoToTest={handleGoToTest}
         onGoToDaily={handleGoToDaily}
         onGoToReadAlong={handleGoToReadAlong}
+        onGoToWordGame={handleGoToWordGame}
       />
     );
   }
@@ -434,6 +469,39 @@ export default function App() {
       <ReadAlong
         level={readAlongLevel}
         onBack={handleBackFromReadAlong}
+      />
+    );
+  }
+
+  // Word game select page
+  if (page === 'wordGameSelect') {
+    return (
+      <WordGameSelect
+        completedLevels={completedLevels}
+        onStart={handleStartWordGame}
+        onBack={handleBackFromWordGame}
+      />
+    );
+  }
+
+  // Word game in progress
+  if (page === 'wordGame') {
+    return (
+      <WordGame
+        questions={wordGameQuestions}
+        onComplete={handleWordGameComplete}
+        onBack={handleBackFromWordGame}
+      />
+    );
+  }
+
+  // Word game result
+  if (page === 'wordGameResult' && wordGameResult) {
+    return (
+      <WordGameResultView
+        result={wordGameResult}
+        onRetry={handleWordGameRetry}
+        onBack={handleBackFromWordGame}
       />
     );
   }

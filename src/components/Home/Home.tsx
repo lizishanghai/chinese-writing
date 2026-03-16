@@ -16,9 +16,10 @@ interface HomeProps {
   onGoToTest: () => void;
   onGoToDaily: () => void;
   onGoToReadAlong: () => void;
+  onGoToWordGame: () => void;
 }
 
-export function Home({ completedLevels, onGoToWriting, onGoToReading, onGoToTest, onGoToDaily, onGoToReadAlong }: HomeProps) {
+export function Home({ completedLevels, onGoToWriting, onGoToReading, onGoToTest, onGoToDaily, onGoToReadAlong, onGoToWordGame }: HomeProps) {
   const hasCompleted = completedLevels.size > 0;
 
   const sections: Section[] = [
@@ -60,6 +61,14 @@ export function Home({ completedLevels, onGoToWriting, onGoToReading, onGoToTest
       color: 'red',
       locked: !hasCompleted,
       onClick: onGoToReadAlong,
+    },
+    {
+      emoji: '🧩',
+      title: '组词游戏',
+      subtitle: '用字组成词语',
+      color: 'teal',
+      locked: !hasCompleted,
+      onClick: onGoToWordGame,
     },
   ];
 

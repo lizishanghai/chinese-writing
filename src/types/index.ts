@@ -60,6 +60,24 @@ export interface DailyChallengeState {
   scores: Record<string, number>;  // date -> score percentage
 }
 
+// Word game
+export interface WordGameQuestion {
+  type: 'arrange' | 'fillblank';
+  word: string;              // The correct word (e.g. "二月")
+  meaning: string;           // The character's meaning
+  targetChar: CharacterEntry;
+  scrambled?: string[];      // For arrange: shuffled characters
+  blankIndex?: number;       // For fillblank: which char is blanked (0 or 1)
+  options?: string[];        // For fillblank: 4 char options
+  correctIndex?: number;     // For fillblank: index of correct option
+}
+
+export interface WordGameResult {
+  questions: WordGameQuestion[];
+  correct: boolean[];
+  score: number;
+}
+
 export type AppAction =
   | { type: 'SET_LEVEL'; level: DifficultyLevel }
   | { type: 'SET_CHARACTER'; character: string }
