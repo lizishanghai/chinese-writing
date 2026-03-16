@@ -93,6 +93,39 @@ export function generateRecognitionQuestions(
   });
 }
 
+/** Generate comprehension test questions (see word, pick meaning) */
+export function generateComprehensionQuestions(
+  levels: number[],
+  questionCount: number = 10
+): TestQuestion[] {
+  const targetChars = getCharsFromLevels(levels);
+  const allMeanings = characterLevels
+    .flatMap(l => l.characters)
+    .map(c => c.meaning);
+
+  const selected = pickRandom(targetChars, Math.min(questionCount, targetChars.length));
+
+  return selected.map(target => {
+    const word = target.words?.[0] || target.char;
+    const correctMeaning = target.meaning;
+
+    const wrongMeanings = pickRandom(
+      allMeanings.filter(m => m !== correctMeaning),
+      3
+    );
+
+    const options = shuffle([correctMeaning, ...wrongMeanings]);
+
+    return {
+      type: 'comprehension' as const,
+      target,
+      word,
+      options,
+      correctIndex: options.indexOf(correctMeaning),
+    };
+  });
+}
+
 /** Generate listening test questions */
 export function generateListeningQuestions(
   levels: number[],

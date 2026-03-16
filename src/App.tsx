@@ -12,8 +12,9 @@ import { Congratulations } from './components/Congratulations/Congratulations';
 import { TestSelect } from './components/Test/TestSelect';
 import { RecognitionTest } from './components/Test/RecognitionTest';
 import { ListeningTest } from './components/Test/ListeningTest';
+import { ComprehensionTest } from './components/Test/ComprehensionTest';
 import { TestResult } from './components/Test/TestResult';
-import { generateRecognitionQuestions, generateListeningQuestions } from './utils/testGenerator';
+import { generateRecognitionQuestions, generateListeningQuestions, generateComprehensionQuestions } from './utils/testGenerator';
 import { ReadingSelect } from './components/Reading/ReadingSelect';
 import { Reading } from './components/Reading/Reading';
 import { Home } from './components/Home/Home';
@@ -213,7 +214,9 @@ export default function App() {
     setTestLevels(levels);
     const questions = type === 'recognition'
       ? generateRecognitionQuestions(levels)
-      : generateListeningQuestions(levels);
+      : type === 'listening'
+      ? generateListeningQuestions(levels)
+      : generateComprehensionQuestions(levels);
     setTestQuestions(questions);
     setTestResult(null);
     setPage('test');
@@ -227,7 +230,9 @@ export default function App() {
   const handleTestRetry = useCallback(() => {
     const questions = testType === 'recognition'
       ? generateRecognitionQuestions(testLevels)
-      : generateListeningQuestions(testLevels);
+      : testType === 'listening'
+      ? generateListeningQuestions(testLevels)
+      : generateComprehensionQuestions(testLevels);
     setTestQuestions(questions);
     setTestResult(null);
     setPage('test');
@@ -299,6 +304,15 @@ export default function App() {
     if (testType === 'recognition') {
       return (
         <RecognitionTest
+          questions={testQuestions}
+          onComplete={handleTestComplete}
+          onBack={handleBackFromTest}
+        />
+      );
+    }
+    if (testType === 'comprehension') {
+      return (
+        <ComprehensionTest
           questions={testQuestions}
           onComplete={handleTestComplete}
           onBack={handleBackFromTest}

@@ -54,6 +54,14 @@ export function TestSelect({ completedLevels, onStartTest, onBack }: TestSelectP
             <span className="test-type-label">听写测试</span>
             <span className="test-type-desc">听声音写汉字</span>
           </button>
+          <button
+            className={`test-type-btn ${testType === 'comprehension' ? 'test-type-btn--active' : ''}`}
+            onClick={() => setTestType('comprehension')}
+          >
+            <span className="test-type-icon">📖</span>
+            <span className="test-type-label">阅读理解</span>
+            <span className="test-type-desc">看词语选意思</span>
+          </button>
         </div>
 
         <h2 className="test-section-title">选择测试范围</h2>

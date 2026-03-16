@@ -3,7 +3,6 @@ import type { CharacterEntry } from '../../types';
 import { getLevelConfig } from '../../data/characterLibrary';
 import { speakChinese } from '../../utils/speechService';
 import { getLearnedChars, buildPinyinMap } from '../../utils/readingHelpers';
-import { ReadingQuiz } from './ReadingQuiz';
 import './Reading.css';
 
 interface ReadingProps {
@@ -14,7 +13,6 @@ interface ReadingProps {
 
 export function Reading({ level, completedLevels, onBack }: ReadingProps) {
   const [cardIndex, setCardIndex] = useState(0);
-  const [showQuiz, setShowQuiz] = useState(false);
 
   const config = getLevelConfig(level);
   const chars = config.characters;
@@ -44,16 +42,6 @@ export function Reading({ level, completedLevels, onBack }: ReadingProps) {
   const handleTapChar = useCallback((text: string) => {
     speakChinese(text);
   }, []);
-
-  if (showQuiz) {
-    return (
-      <ReadingQuiz
-        levelChars={chars}
-        onBack={() => setShowQuiz(false)}
-        onFinish={onBack}
-      />
-    );
-  }
 
   return (
     <div className="reading-page">
@@ -132,11 +120,8 @@ export function Reading({ level, completedLevels, onBack }: ReadingProps) {
             下一个 ➡️
           </button>
         ) : (
-          <button
-            className="reading-nav-btn reading-nav-btn--quiz"
-            onClick={() => setShowQuiz(true)}
-          >
-            📝 小测验
+          <button className="reading-nav-btn" onClick={onBack}>
+            ✅ 完成
           </button>
         )}
       </div>

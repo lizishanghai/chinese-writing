@@ -36,13 +36,14 @@ export interface AppState {
 }
 
 // Test types
-export type TestType = 'recognition' | 'listening';
+export type TestType = 'recognition' | 'listening' | 'comprehension';
 
 export interface TestQuestion {
-  type: 'charToPinyin' | 'pinyinToChar' | 'listening';
+  type: 'charToPinyin' | 'pinyinToChar' | 'listening' | 'comprehension';
   target: CharacterEntry;
   options?: string[];  // 4 options for multiple choice
   correctIndex?: number;
+  word?: string;  // For comprehension: the word to display
 }
 
 export interface TestResultData {
