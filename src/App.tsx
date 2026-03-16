@@ -16,13 +16,14 @@ import { TestResult } from './components/Test/TestResult';
 import { generateRecognitionQuestions, generateListeningQuestions } from './utils/testGenerator';
 import { ReadingSelect } from './components/Reading/ReadingSelect';
 import { Reading } from './components/Reading/Reading';
+import { Home } from './components/Home/Home';
 import type { TestQuestion } from './types';
 
 import './styles/variables.css';
 import './styles/animations.css';
 import './components/Layout/AppLayout.css';
 
-type Page = 'levelSelect' | 'practice' | 'congrats' | 'testSelect' | 'test' | 'testResult' | 'readingSelect' | 'reading';
+type Page = 'home' | 'levelSelect' | 'practice' | 'congrats' | 'testSelect' | 'test' | 'testResult' | 'readingSelect' | 'reading';
 
 function loadScores(): Record<string, number> {
   try {
@@ -58,7 +59,7 @@ function saveCompletedLevel(level: number) {
 }
 
 export default function App() {
-  const [page, setPage] = useState<Page>('levelSelect');
+  const [page, setPage] = useState<Page>('home');
   const [level, setLevel] = useState(1);
   const [charIndex, setCharIndex] = useState(0);
   const [mode, setMode] = useState<AppMode>('demo');
@@ -193,6 +194,15 @@ export default function App() {
     setPage('practice');
   }, [level, resetQuiz]);
 
+  // Home / navigation handlers
+  const handleBackToHome = useCallback(() => {
+    setPage('home');
+  }, []);
+
+  const handleGoToWriting = useCallback(() => {
+    setPage('levelSelect');
+  }, []);
+
   // Test handlers
   const handleGoToTest = useCallback(() => {
     setPage('testSelect');
@@ -224,7 +234,7 @@ export default function App() {
   }, [testType, testLevels]);
 
   const handleBackFromTest = useCallback(() => {
-    setPage('levelSelect');
+    setPage('home');
   }, []);
 
   // Reading handlers
@@ -238,7 +248,7 @@ export default function App() {
   }, []);
 
   const handleBackFromReading = useCallback(() => {
-    setPage('levelSelect');
+    setPage('home');
   }, []);
 
   const handleReadWords = useCallback(() => {
@@ -249,6 +259,18 @@ export default function App() {
     speakChinese(parts.join('。'));
   }, [characterEntry]);
 
+  // Home page
+  if (page === 'home') {
+    return (
+      <Home
+        completedLevels={completedLevels}
+        onGoToWriting={handleGoToWriting}
+        onGoToReading={handleGoToReading}
+        onGoToTest={handleGoToTest}
+      />
+    );
+  }
+
   // Level select page
   if (page === 'levelSelect') {
     return (
@@ -256,8 +278,7 @@ export default function App() {
         onSelectLevel={handleSelectLevel}
         completedLevels={completedLevels}
         scores={scores}
-        onGoToTest={completedLevels.size > 0 ? handleGoToTest : undefined}
-        onGoToReading={completedLevels.size > 0 ? handleGoToReading : undefined}
+        onBack={handleBackToHome}
       />
     );
   }

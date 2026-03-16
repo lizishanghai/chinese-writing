@@ -5,30 +5,18 @@ interface LevelSelectProps {
   onSelectLevel: (level: number) => void;
   completedLevels: Set<number>;
   scores: Record<string, number>;
-  onGoToTest?: () => void;
-  onGoToReading?: () => void;
+  onBack: () => void;
 }
 
-export function LevelSelect({ onSelectLevel, completedLevels, scores, onGoToTest, onGoToReading }: LevelSelectProps) {
+export function LevelSelect({ onSelectLevel, completedLevels, scores, onBack }: LevelSelectProps) {
   return (
     <div className="level-select">
       <div className="level-select-header">
+        <button className="level-select-back-btn" onClick={onBack}>← 首页</button>
         <h2 className="level-select-title">
           <span>✏️</span> 写字小课堂
         </h2>
         <p className="level-select-subtitle">选择关卡开始练习 Choose a level</p>
-        <div className="level-select-actions">
-          {onGoToReading && (
-            <button className="level-select-reading-btn" onClick={onGoToReading}>
-              📖 阅读
-            </button>
-          )}
-          {onGoToTest && (
-            <button className="level-select-test-btn" onClick={onGoToTest}>
-              📝 测试
-            </button>
-          )}
-        </div>
       </div>
       <div className="level-grid">
         {characterLevels.map((config, i) => {

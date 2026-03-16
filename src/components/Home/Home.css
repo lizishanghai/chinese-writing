@@ -1,0 +1,148 @@
+.home {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #EFF6FF 0%, #FDF2F8 50%, #FFF7ED 100%);
+  padding: 32px 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.home-header {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.home-title {
+  font-size: 42px;
+  font-weight: 800;
+  color: #1F2937;
+  margin: 0 0 8px;
+}
+
+.home-subtitle {
+  font-size: 18px;
+  color: #6B7280;
+  margin: 0;
+}
+
+.home-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 20px;
+  max-width: 800px;
+  width: 100%;
+}
+
+.home-card {
+  background: white;
+  border: 3px solid transparent;
+  border-radius: 24px;
+  padding: 32px 24px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  min-height: 180px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.06);
+}
+
+.home-card:hover:not(:disabled) {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+}
+
+.home-card:active:not(:disabled) {
+  transform: scale(0.97);
+}
+
+/* Color variants */
+.home-card--blue {
+  border-color: #BFDBFE;
+  background: linear-gradient(135deg, #EFF6FF, #DBEAFE);
+}
+
+.home-card--blue:hover:not(:disabled) {
+  border-color: #3B82F6;
+}
+
+.home-card--green {
+  border-color: #BBF7D0;
+  background: linear-gradient(135deg, #ECFDF5, #D1FAE5);
+}
+
+.home-card--green:hover:not(:disabled) {
+  border-color: #10B981;
+}
+
+.home-card--purple {
+  border-color: #DDD6FE;
+  background: linear-gradient(135deg, #EDE9FE, #DDD6FE);
+}
+
+.home-card--purple:hover:not(:disabled) {
+  border-color: #8B5CF6;
+}
+
+/* Locked */
+.home-card--locked {
+  opacity: 0.5;
+  cursor: not-allowed;
+  filter: grayscale(0.3);
+}
+
+.home-card-emoji {
+  font-size: 48px;
+  line-height: 1;
+}
+
+.home-card-title {
+  font-size: 24px;
+  font-weight: 700;
+  color: #1F2937;
+}
+
+.home-card-subtitle {
+  font-size: 16px;
+  color: #6B7280;
+}
+
+.home-footer {
+  margin-top: 40px;
+  color: #9CA3AF;
+  font-size: 14px;
+}
+
+/* Mobile */
+@media (max-width: 480px) {
+  .home {
+    padding: 24px 16px;
+  }
+
+  .home-title {
+    font-size: 36px;
+  }
+
+  .home-header {
+    margin-bottom: 28px;
+  }
+
+  .home-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .home-card {
+    min-height: 140px;
+    padding: 24px 20px;
+  }
+
+  .home-card-emoji {
+    font-size: 40px;
+  }
+
+  .home-card-title {
+    font-size: 22px;
+  }
+}
