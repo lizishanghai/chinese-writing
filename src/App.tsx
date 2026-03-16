@@ -25,6 +25,7 @@ import { ReadAlong } from './components/ReadAlong/ReadAlong';
 import { WordGameSelect } from './components/WordGame/WordGameSelect';
 import { WordGame, WordGameResultView } from './components/WordGame/WordGame';
 import { generateWordGameQuestions } from './utils/wordGameGenerator';
+import { WhackMole } from './components/WhackMole/WhackMole';
 import { generateDailyChallenge, getTodayStr, saveDailyChallengeResult } from './utils/dailyChallengeGenerator';
 import { playCelebrationFanfare, playCompletionChime } from './utils/soundEffects';
 import type { TestQuestion, WordGameQuestion, WordGameResult } from './types';
@@ -33,7 +34,7 @@ import './styles/variables.css';
 import './styles/animations.css';
 import './components/Layout/AppLayout.css';
 
-type Page = 'home' | 'levelSelect' | 'practice' | 'congrats' | 'testSelect' | 'test' | 'testResult' | 'readingSelect' | 'reading' | 'dailyChallenge' | 'dailyChallengeQuiz' | 'readAlongSelect' | 'readAlong' | 'wordGameSelect' | 'wordGame' | 'wordGameResult';
+type Page = 'home' | 'levelSelect' | 'practice' | 'congrats' | 'testSelect' | 'test' | 'testResult' | 'readingSelect' | 'reading' | 'dailyChallenge' | 'dailyChallengeQuiz' | 'readAlongSelect' | 'readAlong' | 'wordGameSelect' | 'wordGame' | 'wordGameResult' | 'whackMole';
 
 function loadScores(): Record<string, number> {
   try {
@@ -344,6 +345,15 @@ export default function App() {
     setPage('home');
   }, []);
 
+  // Whack-a-mole handlers
+  const handleGoToWhackMole = useCallback(() => {
+    setPage('whackMole');
+  }, []);
+
+  const handleBackFromWhackMole = useCallback(() => {
+    setPage('home');
+  }, []);
+
   const handleReadWords = useCallback(() => {
     if (!characterEntry) return;
     const parts: string[] = [characterEntry.char];
@@ -363,6 +373,7 @@ export default function App() {
         onGoToDaily={handleGoToDaily}
         onGoToReadAlong={handleGoToReadAlong}
         onGoToWordGame={handleGoToWordGame}
+        onGoToWhackMole={handleGoToWhackMole}
       />
     );
   }
@@ -502,6 +513,16 @@ export default function App() {
         result={wordGameResult}
         onRetry={handleWordGameRetry}
         onBack={handleBackFromWordGame}
+      />
+    );
+  }
+
+  // Whack-a-mole game
+  if (page === 'whackMole') {
+    return (
+      <WhackMole
+        completedLevels={completedLevels}
+        onBack={handleBackFromWhackMole}
       />
     );
   }

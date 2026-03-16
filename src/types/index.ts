@@ -78,6 +78,14 @@ export interface WordGameResult {
   score: number;
 }
 
+// Whack-a-mole
+export interface WhackMoleResult {
+  score: number;
+  highScore: number;
+  totalTaps: number;
+  correctTaps: number;
+}
+
 export type AppAction =
   | { type: 'SET_LEVEL'; level: DifficultyLevel }
   | { type: 'SET_CHARACTER'; character: string }

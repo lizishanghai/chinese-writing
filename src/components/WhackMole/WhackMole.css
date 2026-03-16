@@ -1,0 +1,342 @@
+/* ========== Whack-a-Mole Game ========== */
+.whack-page {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #FFFBEB 0%, #FEF3C7 50%, #FDE68A 100%);
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.whack-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.whack-back-btn {
+  background: rgba(0,0,0,0.05);
+  border: none;
+  border-radius: 12px;
+  padding: 8px 16px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  color: #374151;
+}
+
+.whack-score {
+  margin-left: auto;
+  font-size: 24px;
+  font-weight: 800;
+  color: #B45309;
+}
+
+/* Timer bar */
+.whack-timer {
+  height: 8px;
+  background: #FDE68A;
+  border-radius: 4px;
+  margin-bottom: 16px;
+  overflow: hidden;
+}
+
+.whack-timer-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #F59E0B, #D97706);
+  border-radius: 4px;
+  transition: width 0.1s linear;
+}
+
+.whack-timer-fill--low {
+  background: linear-gradient(90deg, #EF4444, #DC2626);
+}
+
+/* Prompt */
+.whack-prompt {
+  text-align: center;
+  margin-bottom: 16px;
+  padding: 12px 20px;
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+}
+
+.whack-prompt-emoji {
+  font-size: 36px;
+}
+
+.whack-prompt-text {
+  font-size: 20px;
+  font-weight: 700;
+  color: #92400E;
+  margin-top: 4px;
+}
+
+.whack-prompt-hint {
+  font-size: 14px;
+  color: #B45309;
+  margin-top: 2px;
+}
+
+/* Grid */
+.whack-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  max-width: 420px;
+  margin: 0 auto;
+  width: 100%;
+  flex: 1;
+  align-content: center;
+}
+
+/* Hole */
+.whack-hole {
+  aspect-ratio: 1;
+  background: radial-gradient(ellipse at center, #D4A373 0%, #B08968 60%, #9C6644 100%);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+  box-shadow: inset 0 4px 12px rgba(0,0,0,0.3);
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.whack-hole--empty {
+  cursor: default;
+}
+
+/* Mole (character) */
+.whack-mole {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 42px;
+  font-weight: 800;
+  color: #1F2937;
+  background: radial-gradient(ellipse at center, #FEF3C7, #FDE68A);
+  border-radius: 50%;
+  transform: scale(0);
+  transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.whack-mole--visible {
+  transform: scale(1);
+}
+
+.whack-mole--correct {
+  animation: moleCorrect 0.4s ease forwards;
+}
+
+.whack-mole--wrong {
+  animation: moleWrong 0.4s ease;
+}
+
+@keyframes moleCorrect {
+  0% { transform: scale(1); background: radial-gradient(ellipse at center, #FEF3C7, #FDE68A); }
+  30% { transform: scale(1.15); background: radial-gradient(ellipse at center, #D1FAE5, #6EE7B7); }
+  100% { transform: scale(0); }
+}
+
+@keyframes moleWrong {
+  0% { transform: translateX(0) scale(1); }
+  15% { transform: translateX(-6px) scale(1); background: radial-gradient(ellipse at center, #FEE2E2, #FCA5A5); }
+  30% { transform: translateX(6px) scale(1); background: radial-gradient(ellipse at center, #FEE2E2, #FCA5A5); }
+  45% { transform: translateX(-4px) scale(1); }
+  60% { transform: translateX(4px) scale(1); }
+  100% { transform: translateX(0) scale(1); }
+}
+
+/* Score popup */
+.whack-score-popup {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 64px;
+  font-weight: 800;
+  color: #059669;
+  animation: scorePopup 0.6s ease forwards;
+  pointer-events: none;
+  z-index: 10;
+}
+
+@keyframes scorePopup {
+  0% { opacity: 1; transform: translate(-50%, -50%) scale(0.5); }
+  50% { opacity: 1; transform: translate(-50%, -50%) scale(1.2); }
+  100% { opacity: 0; transform: translate(-50%, -70%) scale(1); }
+}
+
+/* Countdown overlay */
+.whack-countdown {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0,0,0,0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 20;
+}
+
+.whack-countdown-num {
+  font-size: 96px;
+  font-weight: 800;
+  color: white;
+  text-shadow: 0 4px 16px rgba(0,0,0,0.3);
+  animation: countdownPulse 0.8s ease;
+}
+
+@keyframes countdownPulse {
+  0% { transform: scale(0.5); opacity: 0; }
+  40% { transform: scale(1.2); opacity: 1; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+/* ========== Result ========== */
+.whack-result {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #FFFBEB 0%, #FEF3C7 50%, #FDE68A 100%);
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.whack-result-card {
+  background: rgba(255,255,255,0.9);
+  border-radius: 24px;
+  padding: 32px 24px;
+  max-width: 400px;
+  width: 100%;
+  text-align: center;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+}
+
+.whack-result-emoji {
+  font-size: 56px;
+  margin-bottom: 8px;
+}
+
+.whack-result-score {
+  font-size: 48px;
+  font-weight: 800;
+  color: #B45309;
+}
+
+.whack-result-label {
+  font-size: 18px;
+  color: #6B7280;
+  margin-bottom: 4px;
+}
+
+.whack-result-high {
+  font-size: 16px;
+  font-weight: 600;
+  color: #D97706;
+  margin-bottom: 4px;
+}
+
+.whack-result-new-high {
+  display: inline-block;
+  background: #FEF3C7;
+  color: #B45309;
+  font-size: 14px;
+  font-weight: 700;
+  padding: 4px 12px;
+  border-radius: 12px;
+  margin-bottom: 8px;
+}
+
+.whack-result-stats {
+  display: flex;
+  justify-content: center;
+  gap: 24px;
+  margin: 16px 0 24px;
+}
+
+.whack-result-stat {
+  text-align: center;
+}
+
+.whack-result-stat-value {
+  font-size: 24px;
+  font-weight: 700;
+  color: #374151;
+}
+
+.whack-result-stat-label {
+  font-size: 13px;
+  color: #9CA3AF;
+}
+
+.whack-result-text {
+  font-size: 20px;
+  font-weight: 600;
+  color: #374151;
+  margin-bottom: 24px;
+}
+
+.whack-result-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.whack-result-btn {
+  width: 100%;
+  border: none;
+  border-radius: 14px;
+  padding: 14px 20px;
+  font-size: 18px;
+  font-weight: 700;
+  cursor: pointer;
+  min-height: 52px;
+  background: rgba(0,0,0,0.05);
+  color: #374151;
+  transition: all 0.2s;
+}
+
+.whack-result-btn:active {
+  transform: scale(0.97);
+}
+
+.whack-result-btn--primary {
+  background: linear-gradient(135deg, #F59E0B, #D97706);
+  color: white;
+  box-shadow: 0 4px 12px rgba(245,158,11,0.3);
+}
+
+/* Mobile */
+@media (max-width: 480px) {
+  .whack-page {
+    padding: 12px;
+  }
+
+  .whack-grid {
+    gap: 12px;
+  }
+
+  .whack-mole {
+    font-size: 34px;
+  }
+
+  .whack-prompt-emoji {
+    font-size: 28px;
+  }
+
+  .whack-prompt-text {
+    font-size: 18px;
+  }
+}

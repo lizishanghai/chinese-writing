@@ -17,9 +17,10 @@ interface HomeProps {
   onGoToDaily: () => void;
   onGoToReadAlong: () => void;
   onGoToWordGame: () => void;
+  onGoToWhackMole: () => void;
 }
 
-export function Home({ completedLevels, onGoToWriting, onGoToReading, onGoToTest, onGoToDaily, onGoToReadAlong, onGoToWordGame }: HomeProps) {
+export function Home({ completedLevels, onGoToWriting, onGoToReading, onGoToTest, onGoToDaily, onGoToReadAlong, onGoToWordGame, onGoToWhackMole }: HomeProps) {
   const hasCompleted = completedLevels.size > 0;
 
   const sections: Section[] = [
@@ -69,6 +70,14 @@ export function Home({ completedLevels, onGoToWriting, onGoToReading, onGoToTest
       color: 'teal',
       locked: !hasCompleted,
       onClick: onGoToWordGame,
+    },
+    {
+      emoji: '🎯',
+      title: '打地鼠',
+      subtitle: '快速找到正确的字',
+      color: 'amber',
+      locked: !hasCompleted,
+      onClick: onGoToWhackMole,
     },
   ];
 
