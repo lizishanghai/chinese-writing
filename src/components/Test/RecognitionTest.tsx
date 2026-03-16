@@ -1,7 +1,7 @@
 import { useState, useCallback, useEffect } from 'react';
 import type { TestQuestion, TestResultData } from '../../types';
 import { playCompletionChime } from '../../utils/soundEffects';
-import { speakChinese, speakChineseSequence } from '../../utils/speechService';
+import { speakChinese, speakChineseSequence, speakChineseWithCallback } from '../../utils/speechService';
 import './Test.css';
 
 interface RecognitionTestProps {
@@ -47,34 +47,42 @@ export function RecognitionTest({ questions, onComplete, onBack }: RecognitionTe
     setCorrectArr(prev => [...prev, correct]);
   }, [showFeedback, question]);
 
-  // Auto-advance after feedback
+  // Speak feedback then advance
   useEffect(() => {
-    if (!showFeedback) return;
+    if (!showFeedback || selectedAnswer === null) return;
+    const correct = selectedAnswer === question.correctIndex;
+    const correctOption = question.options?.[question.correctIndex!];
+    const feedbackText = correct
+      ? '正确'
+      : `不对，正确答案是${correctOption}`;
+
     const timer = setTimeout(() => {
-      if (currentIndex + 1 < total) {
-        setCurrentIndex(prev => prev + 1);
-        setSelectedAnswer(null);
-        setShowFeedback(false);
-      } else {
-        // Test complete
-        const finalAnswers = [...answers];
-        const finalCorrect = [...correctArr];
-        // If last answer hasn't been added yet by state timing, include current
-        if (finalAnswers.length < total) {
-          finalAnswers.push(selectedAnswer);
-          finalCorrect.push(selectedAnswer === question.correctIndex);
-        }
-        const score = finalCorrect.filter(Boolean).length;
-        onComplete({
-          questions,
-          answers: finalAnswers,
-          correct: finalCorrect,
-          score,
-        });
-      }
-    }, 1500);
+      speakChineseWithCallback(feedbackText, () => {
+        setTimeout(() => {
+          if (currentIndex + 1 < total) {
+            setCurrentIndex(prev => prev + 1);
+            setSelectedAnswer(null);
+            setShowFeedback(false);
+          } else {
+            const finalAnswers = [...answers];
+            const finalCorrect = [...correctArr];
+            if (finalAnswers.length < total) {
+              finalAnswers.push(selectedAnswer);
+              finalCorrect.push(correct);
+            }
+            const score = finalCorrect.filter(Boolean).length;
+            onComplete({
+              questions,
+              answers: finalAnswers,
+              correct: finalCorrect,
+              score,
+            });
+          }
+        }, 500);
+      });
+    }, 300);
     return () => clearTimeout(timer);
-  }, [showFeedback, currentIndex, total, answers, correctArr, selectedAnswer, question, questions, onComplete]);
+  }, [showFeedback, selectedAnswer, currentIndex, total, answers, correctArr, question, questions, onComplete]);
 
   if (!question) return null;
 

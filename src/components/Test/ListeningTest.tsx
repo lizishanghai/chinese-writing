@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect, useCallback } from 'react';
 import HanziWriter from 'hanzi-writer';
 import type { TestQuestion, TestResultData } from '../../types';
-import { speakChinese, speakChineseSequence } from '../../utils/speechService';
+import { speakChinese, speakChineseSequence, speakChineseWithCallback } from '../../utils/speechService';
 import { playCompletionChime } from '../../utils/soundEffects';
 import { useResponsive } from '../../hooks/useResponsive';
 import './Test.css';
@@ -90,29 +90,37 @@ export function ListeningTest({ questions, onComplete, onBack }: ListeningTestPr
     if (question) speakChinese(question.target.char);
   }, [question]);
 
-  // Auto-advance after feedback
+  // Speak feedback then advance
   useEffect(() => {
     if (!showFeedback) return;
-    const timer = setTimeout(() => {
-      const newAnswers = [...answers, isCorrect ? 1 : 0];
-      const newCorrect = [...correctArr, isCorrect];
+    const feedbackText = isCorrect
+      ? `正确，${question.target.char}`
+      : `答案是${question.target.char}，${question.target.pinyin}`;
 
-      if (currentIndex + 1 < total) {
-        setAnswers(newAnswers);
-        setCorrectArr(newCorrect);
-        setCurrentIndex(prev => prev + 1);
-      } else {
-        const score = newCorrect.filter(Boolean).length;
-        onComplete({
-          questions,
-          answers: newAnswers,
-          correct: newCorrect,
-          score,
-        });
-      }
-    }, 2000);
+    const timer = setTimeout(() => {
+      speakChineseWithCallback(feedbackText, () => {
+        setTimeout(() => {
+          const newAnswers = [...answers, isCorrect ? 1 : 0];
+          const newCorrect = [...correctArr, isCorrect];
+
+          if (currentIndex + 1 < total) {
+            setAnswers(newAnswers);
+            setCorrectArr(newCorrect);
+            setCurrentIndex(prev => prev + 1);
+          } else {
+            const score = newCorrect.filter(Boolean).length;
+            onComplete({
+              questions,
+              answers: newAnswers,
+              correct: newCorrect,
+              score,
+            });
+          }
+        }, 500);
+      });
+    }, 300);
     return () => clearTimeout(timer);
-  }, [showFeedback, isCorrect, currentIndex, total, answers, correctArr, questions, onComplete]);
+  }, [showFeedback, isCorrect, currentIndex, total, answers, correctArr, question, questions, onComplete]);
 
   if (!question) return null;
 

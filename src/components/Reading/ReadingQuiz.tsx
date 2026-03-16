@@ -1,7 +1,7 @@
 import { useState, useCallback, useEffect } from 'react';
 import type { CharacterEntry } from '../../types';
 import { generateReadingQuizQuestions, type ReadingQuizQuestion } from '../../utils/readingHelpers';
-import { speakChinese } from '../../utils/speechService';
+import { speakChineseSequence, speakChineseWithCallback } from '../../utils/speechService';
 import { playCompletionChime } from '../../utils/soundEffects';
 import { playCelebrationFanfare } from '../../utils/soundEffects';
 import './Reading.css';
@@ -26,6 +26,15 @@ export function ReadingQuiz({ levelChars, onBack, onFinish }: ReadingQuizProps) 
   const total = questions.length;
   const isCorrect = selectedAnswer === question?.correctIndex;
 
+  // Read question aloud when it appears
+  useEffect(() => {
+    if (!question) return;
+    const timer = setTimeout(() => {
+      speakChineseSequence(['这个词是什么意思？', question.word], 400);
+    }, 300);
+    return () => { clearTimeout(timer); speechSynthesis?.cancel(); };
+  }, [currentIndex, question]);
+
   const handleSelect = useCallback((optionIndex: number) => {
     if (showFeedback) return;
     setSelectedAnswer(optionIndex);
@@ -36,24 +45,32 @@ export function ReadingQuiz({ levelChars, onBack, onFinish }: ReadingQuizProps) 
       playCompletionChime();
       setCorrectCount(prev => prev + 1);
     }
-    // Read the word aloud
-    speakChinese(question.word);
   }, [showFeedback, question]);
 
-  // Auto-advance after feedback
+  // Speak feedback then advance
   useEffect(() => {
-    if (!showFeedback) return;
+    if (!showFeedback || selectedAnswer === null) return;
+    const correct = selectedAnswer === question.correctIndex;
+    const feedbackText = correct
+      ? '正确'
+      : `不对，正确答案是${question.correctMeaning}`;
+
+    // Wait a beat, speak feedback, then advance after speech ends
     const timer = setTimeout(() => {
-      if (currentIndex + 1 < total) {
-        setCurrentIndex(prev => prev + 1);
-        setSelectedAnswer(null);
-        setShowFeedback(false);
-      } else {
-        setFinished(true);
-      }
-    }, 1500);
+      speakChineseWithCallback(feedbackText, () => {
+        setTimeout(() => {
+          if (currentIndex + 1 < total) {
+            setCurrentIndex(prev => prev + 1);
+            setSelectedAnswer(null);
+            setShowFeedback(false);
+          } else {
+            setFinished(true);
+          }
+        }, 500);
+      });
+    }, 300);
     return () => clearTimeout(timer);
-  }, [showFeedback, currentIndex, total]);
+  }, [showFeedback, selectedAnswer, question, currentIndex, total]);
 
   // Play fanfare on finish
   useEffect(() => {

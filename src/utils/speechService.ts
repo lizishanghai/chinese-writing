@@ -36,6 +36,26 @@ export function speakChinese(text: string): void {
   speechSynthesis.speak(utterance);
 }
 
+/** Speak text and call onDone when finished */
+export function speakChineseWithCallback(text: string, onDone: () => void): void {
+  if (typeof speechSynthesis === 'undefined') { onDone(); return; }
+
+  speechSynthesis.cancel();
+
+  const utterance = new SpeechSynthesisUtterance(text);
+  utterance.lang = 'zh-CN';
+  utterance.rate = 0.85;
+  utterance.volume = 1;
+
+  const voice = findChineseVoice();
+  if (voice) utterance.voice = voice;
+
+  utterance.onend = () => onDone();
+  utterance.onerror = () => onDone();
+
+  speechSynthesis.speak(utterance);
+}
+
 /** Speak multiple texts in sequence, waiting for each to finish before the next */
 export function speakChineseSequence(texts: string[], pauseMs: number = 500): void {
   if (typeof speechSynthesis === 'undefined') return;
