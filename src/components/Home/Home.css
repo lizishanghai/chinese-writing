@@ -85,6 +85,15 @@
   border-color: #8B5CF6;
 }
 
+.home-card--orange {
+  border-color: #FDE68A;
+  background: linear-gradient(135deg, #FFFBEB, #FEF3C7);
+}
+
+.home-card--orange:hover:not(:disabled) {
+  border-color: #F59E0B;
+}
+
 /* Locked */
 .home-card--locked {
   opacity: 0.5;

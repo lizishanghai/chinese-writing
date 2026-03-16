@@ -39,7 +39,7 @@ export interface AppState {
 export type TestType = 'recognition' | 'listening' | 'comprehension';
 
 export interface TestQuestion {
-  type: 'charToPinyin' | 'pinyinToChar' | 'listening' | 'comprehension';
+  type: 'charToPinyin' | 'pinyinToChar' | 'listening' | 'comprehension' | 'listeningChoice';
   target: CharacterEntry;
   options?: string[];  // 4 options for multiple choice
   correctIndex?: number;
@@ -51,6 +51,13 @@ export interface TestResultData {
   answers: (number | null)[];
   correct: boolean[];
   score: number;
+}
+
+// Daily challenge
+export interface DailyChallengeState {
+  lastDate: string;           // "YYYY-MM-DD" of last completed challenge
+  streak: number;             // consecutive days completed
+  scores: Record<string, number>;  // date -> score percentage
 }
 
 export type AppAction =

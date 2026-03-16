@@ -18,13 +18,17 @@ import { generateRecognitionQuestions, generateListeningQuestions, generateCompr
 import { ReadingSelect } from './components/Reading/ReadingSelect';
 import { Reading } from './components/Reading/Reading';
 import { Home } from './components/Home/Home';
+import { DailyChallenge } from './components/DailyChallenge/DailyChallenge';
+import { DailyChallengeQuiz } from './components/DailyChallenge/DailyChallengeQuiz';
+import { generateDailyChallenge, getTodayStr, saveDailyChallengeResult } from './utils/dailyChallengeGenerator';
+import { playCelebrationFanfare, playCompletionChime } from './utils/soundEffects';
 import type { TestQuestion } from './types';
 
 import './styles/variables.css';
 import './styles/animations.css';
 import './components/Layout/AppLayout.css';
 
-type Page = 'home' | 'levelSelect' | 'practice' | 'congrats' | 'testSelect' | 'test' | 'testResult' | 'readingSelect' | 'reading';
+type Page = 'home' | 'levelSelect' | 'practice' | 'congrats' | 'testSelect' | 'test' | 'testResult' | 'readingSelect' | 'reading' | 'dailyChallenge' | 'dailyChallengeQuiz';
 
 function loadScores(): Record<string, number> {
   try {
@@ -72,6 +76,7 @@ export default function App() {
   const [testQuestions, setTestQuestions] = useState<TestQuestion[]>([]);
   const [testResult, setTestResult] = useState<TestResultData | null>(null);
   const [readingLevel, setReadingLevel] = useState(1);
+  const [dailyQuestions, setDailyQuestions] = useState<TestQuestion[]>([]);
   const { canvasSize } = useResponsive();
 
   const levelConfig = getLevelConfig(level);
@@ -256,6 +261,34 @@ export default function App() {
     setPage('home');
   }, []);
 
+  // Daily challenge handlers
+  const handleGoToDaily = useCallback(() => {
+    setPage('dailyChallenge');
+  }, []);
+
+  const handleStartDailyQuiz = useCallback(() => {
+    const today = getTodayStr();
+    const questions = generateDailyChallenge(completedLevels, today);
+    setDailyQuestions(questions);
+    setPage('dailyChallengeQuiz');
+  }, [completedLevels]);
+
+  const handleDailyComplete = useCallback((result: TestResultData) => {
+    const today = getTodayStr();
+    const pct = Math.round((result.score / result.questions.length) * 100);
+    saveDailyChallengeResult(today, pct);
+    if (pct >= 80) {
+      playCelebrationFanfare();
+    } else {
+      playCompletionChime();
+    }
+    setPage('dailyChallenge');
+  }, []);
+
+  const handleBackFromDaily = useCallback(() => {
+    setPage('home');
+  }, []);
+
   const handleReadWords = useCallback(() => {
     if (!characterEntry) return;
     const parts: string[] = [characterEntry.char];
@@ -272,6 +305,7 @@ export default function App() {
         onGoToWriting={handleGoToWriting}
         onGoToReading={handleGoToReading}
         onGoToTest={handleGoToTest}
+        onGoToDaily={handleGoToDaily}
       />
     );
   }
@@ -336,6 +370,27 @@ export default function App() {
         testType={testType}
         onRetry={handleTestRetry}
         onBack={handleBackFromTest}
+      />
+    );
+  }
+
+  // Daily challenge landing
+  if (page === 'dailyChallenge') {
+    return (
+      <DailyChallenge
+        onStart={handleStartDailyQuiz}
+        onBack={handleBackFromDaily}
+      />
+    );
+  }
+
+  // Daily challenge quiz
+  if (page === 'dailyChallengeQuiz') {
+    return (
+      <DailyChallengeQuiz
+        questions={dailyQuestions}
+        onComplete={handleDailyComplete}
+        onBack={handleBackFromDaily}
       />
     );
   }

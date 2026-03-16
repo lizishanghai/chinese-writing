@@ -14,9 +14,10 @@ interface HomeProps {
   onGoToWriting: () => void;
   onGoToReading: () => void;
   onGoToTest: () => void;
+  onGoToDaily: () => void;
 }
 
-export function Home({ completedLevels, onGoToWriting, onGoToReading, onGoToTest }: HomeProps) {
+export function Home({ completedLevels, onGoToWriting, onGoToReading, onGoToTest, onGoToDaily }: HomeProps) {
   const hasCompleted = completedLevels.size > 0;
 
   const sections: Section[] = [
@@ -42,6 +43,14 @@ export function Home({ completedLevels, onGoToWriting, onGoToReading, onGoToTest
       color: 'purple',
       locked: !hasCompleted,
       onClick: onGoToTest,
+    },
+    {
+      emoji: '🏆',
+      title: '每日挑战',
+      subtitle: '每天综合闯关',
+      color: 'orange',
+      locked: !hasCompleted,
+      onClick: onGoToDaily,
     },
   ];
 

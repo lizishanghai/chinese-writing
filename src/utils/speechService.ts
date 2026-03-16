@@ -50,8 +50,15 @@ export function speakChineseWithCallback(text: string, onDone: () => void): void
   const voice = findChineseVoice();
   if (voice) utterance.voice = voice;
 
-  utterance.onend = () => onDone();
-  utterance.onerror = () => onDone();
+  let done = false;
+  const finish = () => { if (!done) { done = true; onDone(); } };
+
+  utterance.onend = finish;
+  utterance.onerror = finish;
+
+  // Fallback timeout in case speech never fires events (e.g., no audio output)
+  const maxDuration = Math.max(2000, text.length * 400);
+  setTimeout(finish, maxDuration);
 
   speechSynthesis.speak(utterance);
 }
