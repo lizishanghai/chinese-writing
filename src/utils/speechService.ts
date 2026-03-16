@@ -36,6 +36,23 @@ export function speakChinese(text: string): void {
   speechSynthesis.speak(utterance);
 }
 
+/** Speak text with configurable rate (for karaoke speed control) */
+export function speakChineseWithRate(text: string, rate: number): void {
+  if (typeof speechSynthesis === 'undefined') return;
+
+  speechSynthesis.cancel();
+
+  const utterance = new SpeechSynthesisUtterance(text);
+  utterance.lang = 'zh-CN';
+  utterance.rate = rate;
+  utterance.volume = 1;
+
+  const voice = findChineseVoice();
+  if (voice) utterance.voice = voice;
+
+  speechSynthesis.speak(utterance);
+}
+
 /** Speak text and call onDone when finished */
 export function speakChineseWithCallback(text: string, onDone: () => void): void {
   if (typeof speechSynthesis === 'undefined') { onDone(); return; }

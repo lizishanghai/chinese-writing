@@ -1,0 +1,327 @@
+/* ========== Read Along Select ========== */
+.readalong-select {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #FEF2F2 0%, #FFF1F2 50%, #FFE4E6 100%);
+  padding: 16px;
+}
+
+.readalong-select-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+
+.readalong-back-btn {
+  background: rgba(0,0,0,0.05);
+  border: none;
+  border-radius: 12px;
+  padding: 8px 16px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  color: #374151;
+}
+
+.readalong-select-title {
+  font-size: 24px;
+  font-weight: 800;
+  color: #1F2937;
+  margin: 0;
+}
+
+.readalong-select-subtitle {
+  color: #6B7280;
+  font-size: 15px;
+  margin: 0 0 20px;
+}
+
+.readalong-level-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 14px;
+}
+
+.readalong-level-card {
+  background: white;
+  border: 2px solid #FECDD3;
+  border-radius: 16px;
+  padding: 16px;
+  cursor: pointer;
+  text-align: left;
+  transition: all 0.2s;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+}
+
+.readalong-level-card:hover {
+  border-color: #FB7185;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+}
+
+.readalong-level-card:active {
+  transform: scale(0.98);
+}
+
+.readalong-level-num {
+  font-size: 14px;
+  font-weight: 700;
+  color: #E11D48;
+}
+
+.readalong-level-name {
+  font-size: 18px;
+  font-weight: 700;
+  color: #1F2937;
+  margin: 4px 0;
+}
+
+.readalong-level-chars {
+  font-size: 20px;
+  color: #6B7280;
+  letter-spacing: 4px;
+}
+
+/* ========== Karaoke Page ========== */
+.readalong-page {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #FEF2F2 0%, #FFF1F2 100%);
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.readalong-header {
+  width: 100%;
+  max-width: 600px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.readalong-progress {
+  font-size: 16px;
+  font-weight: 600;
+  color: #6B7280;
+}
+
+/* Character info */
+.readalong-char-info {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.readalong-char-main {
+  font-size: 48px;
+  font-weight: 700;
+  color: #E11D48;
+}
+
+.readalong-char-pinyin {
+  font-size: 20px;
+  color: #F43F5E;
+  font-weight: 600;
+}
+
+.readalong-char-meaning {
+  font-size: 16px;
+  color: #9CA3AF;
+}
+
+/* ========== Karaoke Sentence ========== */
+.readalong-sentence {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 4px;
+  max-width: 600px;
+  margin-bottom: 32px;
+  padding: 24px;
+  background: white;
+  border-radius: 24px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.06);
+  min-height: 120px;
+  align-items: flex-end;
+}
+
+.karaoke-char {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: all 0.2s ease;
+  padding: 4px 2px;
+}
+
+.karaoke-hanzi {
+  font-size: 40px;
+  font-weight: 700;
+  color: #374151;
+  line-height: 1.2;
+}
+
+.karaoke-pinyin {
+  font-size: 13px;
+  color: #9CA3AF;
+  font-weight: 500;
+  min-height: 18px;
+}
+
+/* Active character - the one currently being read */
+.karaoke-char--active .karaoke-hanzi {
+  color: #E11D48;
+  transform: scale(1.25);
+  text-shadow: 0 0 20px rgba(225,29,72,0.3);
+}
+
+.karaoke-char--active .karaoke-pinyin {
+  color: #E11D48;
+  font-weight: 700;
+}
+
+.karaoke-char--active {
+  background: #FFF1F2;
+  border-radius: 12px;
+}
+
+/* Already read characters */
+.karaoke-char--done .karaoke-hanzi {
+  color: #9CA3AF;
+}
+
+.karaoke-char--done .karaoke-pinyin {
+  color: #D1D5DB;
+}
+
+/* ========== Controls ========== */
+.readalong-controls {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.readalong-play-btn {
+  background: linear-gradient(135deg, #E11D48, #BE123C);
+  color: white;
+  border: none;
+  border-radius: 16px;
+  padding: 14px 28px;
+  font-size: 20px;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 4px 16px rgba(225,29,72,0.3);
+  transition: all 0.2s;
+  min-width: 140px;
+}
+
+.readalong-play-btn:active {
+  transform: scale(0.97);
+}
+
+.readalong-play-btn--playing {
+  background: linear-gradient(135deg, #6B7280, #4B5563);
+  box-shadow: 0 4px 16px rgba(107,114,128,0.3);
+}
+
+.readalong-replay-btn {
+  background: rgba(0,0,0,0.05);
+  border: none;
+  border-radius: 16px;
+  padding: 14px 20px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  color: #374151;
+  transition: all 0.2s;
+}
+
+.readalong-replay-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.readalong-replay-btn:active:not(:disabled) {
+  transform: scale(0.97);
+}
+
+.readalong-speed-btn {
+  background: #FEF2F2;
+  border: 2px solid #FECDD3;
+  border-radius: 16px;
+  padding: 14px 20px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  color: #E11D48;
+  transition: all 0.2s;
+}
+
+.readalong-speed-btn:active {
+  transform: scale(0.97);
+}
+
+/* ========== Navigation ========== */
+.readalong-nav {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 400px;
+}
+
+.readalong-nav-btn {
+  background: white;
+  border: 2px solid #E5E7EB;
+  border-radius: 14px;
+  padding: 12px 20px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  color: #374151;
+  transition: all 0.2s;
+}
+
+.readalong-nav-btn:active {
+  transform: scale(0.97);
+}
+
+/* ========== Mobile ========== */
+@media (max-width: 480px) {
+  .readalong-select {
+    padding: 14px;
+  }
+
+  .readalong-level-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .readalong-sentence {
+    padding: 16px;
+    gap: 2px;
+  }
+
+  .karaoke-hanzi {
+    font-size: 32px;
+  }
+
+  .karaoke-pinyin {
+    font-size: 11px;
+  }
+
+  .readalong-char-main {
+    font-size: 40px;
+  }
+
+  .readalong-play-btn {
+    font-size: 18px;
+    padding: 12px 24px;
+  }
+
+  .readalong-controls {
+    gap: 8px;
+  }
+}

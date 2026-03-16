@@ -20,6 +20,8 @@ import { Reading } from './components/Reading/Reading';
 import { Home } from './components/Home/Home';
 import { DailyChallenge } from './components/DailyChallenge/DailyChallenge';
 import { DailyChallengeQuiz } from './components/DailyChallenge/DailyChallengeQuiz';
+import { ReadAlongSelect } from './components/ReadAlong/ReadAlongSelect';
+import { ReadAlong } from './components/ReadAlong/ReadAlong';
 import { generateDailyChallenge, getTodayStr, saveDailyChallengeResult } from './utils/dailyChallengeGenerator';
 import { playCelebrationFanfare, playCompletionChime } from './utils/soundEffects';
 import type { TestQuestion } from './types';
@@ -28,7 +30,7 @@ import './styles/variables.css';
 import './styles/animations.css';
 import './components/Layout/AppLayout.css';
 
-type Page = 'home' | 'levelSelect' | 'practice' | 'congrats' | 'testSelect' | 'test' | 'testResult' | 'readingSelect' | 'reading' | 'dailyChallenge' | 'dailyChallengeQuiz';
+type Page = 'home' | 'levelSelect' | 'practice' | 'congrats' | 'testSelect' | 'test' | 'testResult' | 'readingSelect' | 'reading' | 'dailyChallenge' | 'dailyChallengeQuiz' | 'readAlongSelect' | 'readAlong';
 
 function loadScores(): Record<string, number> {
   try {
@@ -77,6 +79,7 @@ export default function App() {
   const [testResult, setTestResult] = useState<TestResultData | null>(null);
   const [readingLevel, setReadingLevel] = useState(1);
   const [dailyQuestions, setDailyQuestions] = useState<TestQuestion[]>([]);
+  const [readAlongLevel, setReadAlongLevel] = useState(1);
   const { canvasSize } = useResponsive();
 
   const levelConfig = getLevelConfig(level);
@@ -289,6 +292,24 @@ export default function App() {
     setPage('home');
   }, []);
 
+  // Read-along handlers
+  const handleGoToReadAlong = useCallback(() => {
+    setPage('readAlongSelect');
+  }, []);
+
+  const handleSelectReadAlongLevel = useCallback((lvl: number) => {
+    setReadAlongLevel(lvl);
+    setPage('readAlong');
+  }, []);
+
+  const handleBackFromReadAlong = useCallback(() => {
+    setPage('readAlongSelect');
+  }, []);
+
+  const handleBackFromReadAlongSelect = useCallback(() => {
+    setPage('home');
+  }, []);
+
   const handleReadWords = useCallback(() => {
     if (!characterEntry) return;
     const parts: string[] = [characterEntry.char];
@@ -306,6 +327,7 @@ export default function App() {
         onGoToReading={handleGoToReading}
         onGoToTest={handleGoToTest}
         onGoToDaily={handleGoToDaily}
+        onGoToReadAlong={handleGoToReadAlong}
       />
     );
   }
@@ -391,6 +413,27 @@ export default function App() {
         questions={dailyQuestions}
         onComplete={handleDailyComplete}
         onBack={handleBackFromDaily}
+      />
+    );
+  }
+
+  // Read-along select page
+  if (page === 'readAlongSelect') {
+    return (
+      <ReadAlongSelect
+        completedLevels={completedLevels}
+        onSelectLevel={handleSelectReadAlongLevel}
+        onBack={handleBackFromReadAlongSelect}
+      />
+    );
+  }
+
+  // Read-along karaoke page
+  if (page === 'readAlong') {
+    return (
+      <ReadAlong
+        level={readAlongLevel}
+        onBack={handleBackFromReadAlong}
       />
     );
   }
