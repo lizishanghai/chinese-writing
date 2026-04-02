@@ -31,6 +31,7 @@ export function HanziCanvas({
   const {
     isLoading,
     totalStrokes,
+    strokePaths,
     animate,
     animateWithAudio,
     loopAnimation,
@@ -41,7 +42,7 @@ export function HanziCanvas({
     showCharacter: isDemo,
     showOutline: true,
     strokeColor: '#3B82F6',
-    outlineColor: isDemo ? '#E0E7FF' : '#CBD5E1',
+    outlineColor: isDemo ? '#E0E7FF' : 'transparent',
     drawingColor: '#F59E0B',
     highlightColor: '#FCD34D',
     drawingWidth: 6,
@@ -63,8 +64,12 @@ export function HanziCanvas({
     }
   }, [isLoading, mode, character, totalStrokes, startQuiz, quizCallbacks]);
 
+  // HanziWriter uses a 1024x1024 viewBox internally with padding
+  const padding = 20;
+  const scale = (canvasSize - padding * 2) / 1024;
+
   return (
-    <div className="hanzi-canvas-wrapper">
+    <div className={`hanzi-canvas-wrapper ${!isDemo ? 'hanzi-canvas-wrapper--practice' : ''}`}>
       {/* 田字格 grid background */}
       <div
         className="hanzi-canvas-grid"
@@ -75,6 +80,38 @@ export function HanziCanvas({
         <div className="grid-line grid-line--d1" />
         <div className="grid-line grid-line--d2" />
       </div>
+
+      {/* Red dashed stroke guide overlay (practice mode only) */}
+      {!isDemo && strokePaths.length > 0 && (
+        <svg
+          className="hanzi-dashed-overlay"
+          width={canvasSize}
+          height={canvasSize}
+          style={{
+            position: 'absolute',
+            top: 16,
+            left: 16,
+            zIndex: 1,
+            pointerEvents: 'none',
+          }}
+        >
+          <g transform={`translate(${padding}, ${padding + 1024 * scale}) scale(${scale}, ${-scale})`}>
+            {strokePaths.map((d, i) => (
+              <path
+                key={i}
+                d={d}
+                fill="none"
+                stroke="#EF4444"
+                strokeWidth={2 / scale}
+                strokeDasharray={`${8 / scale} ${6 / scale}`}
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            ))}
+          </g>
+        </svg>
+      )}
+
       <div
         ref={containerRef}
         className="hanzi-canvas"

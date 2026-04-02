@@ -30,6 +30,7 @@ export function useHanziWriter(
   const writerRef = useRef<HanziWriter | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [totalStrokes, setTotalStrokes] = useState(0);
+  const [strokePaths, setStrokePaths] = useState<string[]>([]);
 
   const {
     width = 300,
@@ -83,6 +84,7 @@ export function useHanziWriter(
         // Get stroke count from character data
         writer.getCharacterData().then(charData => {
           setTotalStrokes(charData.strokes.length);
+          setStrokePaths(charData.strokes.map((s: any) => s.path));
         });
       },
       onLoadCharDataError: () => {
@@ -159,6 +161,7 @@ export function useHanziWriter(
     writer: writerRef.current,
     isLoading,
     totalStrokes,
+    strokePaths,
     animate,
     animateWithAudio,
     loopAnimation,
