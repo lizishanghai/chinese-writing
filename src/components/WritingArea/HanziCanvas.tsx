@@ -45,7 +45,7 @@ export function HanziCanvas({
     outlineColor: isDemo ? '#E0E7FF' : '#F1F5F9',
     drawingColor: '#F59E0B',
     highlightColor: '#FCD34D',
-    drawingWidth: 6,
+    drawingWidth: 20,
     strokeAnimationSpeed: 0.8,
     delayBetweenStrokes: 300,
   });
