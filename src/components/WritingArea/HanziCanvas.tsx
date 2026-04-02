@@ -42,7 +42,7 @@ export function HanziCanvas({
     showCharacter: isDemo,
     showOutline: true,
     strokeColor: '#3B82F6',
-    outlineColor: isDemo ? '#E0E7FF' : 'transparent',
+    outlineColor: isDemo ? '#E0E7FF' : '#F1F5F9',
     drawingColor: '#F59E0B',
     highlightColor: '#FCD34D',
     drawingWidth: 6,
@@ -64,9 +64,11 @@ export function HanziCanvas({
     }
   }, [isLoading, mode, character, totalStrokes, startQuiz, quizCallbacks]);
 
-  // HanziWriter uses a 1024x1024 viewBox internally with padding
+  // Match HanziWriter's internal Positioner: CHARACTER_BOUNDS = [{x:0,y:-124}, {x:1024,y:900}]
   const padding = 20;
   const scale = (canvasSize - padding * 2) / 1024;
+  const yOffset = 124 * scale + padding; // from.y = -124, so -(-124)*scale + padding
+  const translateY = canvasSize - yOffset;
 
   return (
     <div className={`hanzi-canvas-wrapper ${!isDemo ? 'hanzi-canvas-wrapper--practice' : ''}`}>
@@ -95,7 +97,7 @@ export function HanziCanvas({
             pointerEvents: 'none',
           }}
         >
-          <g transform={`translate(${padding}, ${padding + 1024 * scale}) scale(${scale}, ${-scale})`}>
+          <g transform={`translate(${padding}, ${translateY}) scale(${scale}, ${-scale})`}>
             {strokePaths.map((d, i) => (
               <path
                 key={i}
