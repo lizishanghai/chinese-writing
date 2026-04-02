@@ -1,18 +1,37 @@
 let cachedVoice: SpeechSynthesisVoice | null = null;
 let voicesLoaded = false;
 
-/** Prefer natural/online voices which sound much better than legacy ones */
+/** Prefer enhanced/natural voices across platforms:
+ *  - iOS: "Lili", "Yu-shu" (downloaded enhanced voices) >> "Ting-Ting" (default)
+ *  - Windows: "Microsoft Xiaoxiao Online (Natural)" >> legacy voices
+ *  - Android: Google voices
+ */
 function scoreVoice(v: SpeechSynthesisVoice): number {
   const name = v.name.toLowerCase();
   let s = 0;
-  // Strongly prefer natural/neural voices (e.g. "Microsoft Xiaoxiao Online (Natural)")
-  if (name.includes('natural') || name.includes('neural')) s += 100;
-  // Prefer online voices (higher quality)
+
+  // Strongly prefer natural/neural/enhanced/premium voices
+  if (name.includes('natural') || name.includes('neural') || name.includes('enhanced') || name.includes('premium')) s += 100;
+
+  // iOS enhanced voices (downloaded in Settings > Accessibility > Spoken Content)
+  // These are MUCH better than the default "Ting-Ting"
+  if (name.includes('lili')) s += 90;       // iOS zh-CN enhanced female
+  if (name.includes('yu-shu')) s += 85;     // iOS zh-CN enhanced male
+  if (name.includes('meijia')) s += 40;     // zh-TW but decent
+
+  // Deprioritize the robotic default iOS voice
+  if (name.includes('ting-ting')) s -= 20;
+
+  // Windows natural voices
   if (name.includes('online')) s += 50;
+  if (name.includes('xiaoxiao') || name.includes('xiaoyi')) s += 20;
+
+  // Google voices (Android/Chrome)
+  if (name.includes('google') && v.lang.startsWith('zh')) s += 30;
+
   // Prefer zh-CN over zh-TW/zh-HK for mainland Mandarin
   if (v.lang === 'zh-CN') s += 10;
-  // Prefer female voices (typically clearer for language learning)
-  if (name.includes('xiaoxiao') || name.includes('xiaoyi')) s += 20;
+
   return s;
 }
 
@@ -39,6 +58,9 @@ export function preloadVoices(): void {
   }
 }
 
+/** Default rate: 0.9 is slightly slower than normal but sounds natural */
+const DEFAULT_RATE = 0.9;
+
 export function speakChinese(text: string): void {
   if (typeof speechSynthesis === 'undefined') return;
 
@@ -46,7 +68,7 @@ export function speakChinese(text: string): void {
 
   const utterance = new SpeechSynthesisUtterance(text);
   utterance.lang = 'zh-CN';
-  utterance.rate = 0.85;
+  utterance.rate = DEFAULT_RATE;
   utterance.volume = 1;
 
   const voice = findChineseVoice();
@@ -80,7 +102,7 @@ export function speakChineseWithCallback(text: string, onDone: () => void): void
 
   const utterance = new SpeechSynthesisUtterance(text);
   utterance.lang = 'zh-CN';
-  utterance.rate = 0.85;
+  utterance.rate = DEFAULT_RATE;
   utterance.volume = 1;
 
   const voice = findChineseVoice();
@@ -113,7 +135,7 @@ export function speakChineseSequence(texts: string[], pauseMs: number = 500): vo
 
     const utterance = new SpeechSynthesisUtterance(text);
     utterance.lang = 'zh-CN';
-    utterance.rate = 0.85;
+    utterance.rate = DEFAULT_RATE;
     utterance.volume = 1;
 
     const voice = findChineseVoice();
